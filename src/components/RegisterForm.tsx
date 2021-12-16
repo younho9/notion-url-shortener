@@ -10,9 +10,9 @@ import {
   RadioGroup,
   Radio,
   Stack,
+  Text,
   Center,
 } from '@chakra-ui/react';
-import humanizeString from 'humanize-string';
 import is from '@sindresorhus/is';
 import {ShortenType, SHORTEN_TYPE} from '../schemas';
 import {BASE_URL} from '../constants';
@@ -151,7 +151,7 @@ const RegisterForm = () => {
                   name={shortenType}
                   value={shortenType}
                 >
-                  {humanizeString(shortenType)}
+                  <Text textTransform="capitalize">{shortenType}</Text>
                 </Radio>
               ))}
             </RadioGroup>

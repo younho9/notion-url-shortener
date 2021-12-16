@@ -21,7 +21,6 @@
     "class-transformer": "0.5.1",
     "crypto-random-string": "4.0.0",
     "framer-motion": "^4",
-    "humanize-string": "3.0.0",
     "ky": "0.28.7",
     "next": "12.0.7",
     "react": "17.0.2",
