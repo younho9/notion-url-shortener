@@ -14,7 +14,7 @@ export default class ShortenModel extends NotionDBClient {
       },
     });
 
-    return results.at(0) ?? null;
+    return results[0] ?? null;
   }
 
   async isUnique(shortenUrlPath: string) {
@@ -31,7 +31,7 @@ export default class ShortenModel extends NotionDBClient {
       ],
     });
 
-    return (results.at(0)?.id ?? 0) + 1;
+    return (results[0]?.id ?? 0) + 1;
   }
 
   async createShorten({

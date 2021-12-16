@@ -41,6 +41,9 @@ export const wrapError =
         return;
       }
 
+      // DEBUG:
+      console.log(error);
+
       const defaultError = new UnknownNotionUrlShortenerError();
 
       response.status(defaultError.status).send({
