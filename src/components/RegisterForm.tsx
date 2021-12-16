@@ -12,6 +12,7 @@ import {
   Stack,
   Text,
   Center,
+  HStack,
 } from '@chakra-ui/react';
 import is from '@sindresorhus/is';
 import {ShortenType, SHORTEN_TYPE} from '../schemas';
@@ -133,28 +134,33 @@ const RegisterForm = () => {
           )}
 
           <ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 2}>
-            <RadioGroup
-              as={Center}
-              py={3}
-              value={shortenType}
-              isDisabled={isPending}
-              onChange={
-                setShortenType as React.Dispatch<React.SetStateAction<string>>
-              }
-            >
-              {Object.values(SHORTEN_TYPE).map((shortenType) => (
-                <Radio
-                  key={shortenType}
-                  boxShadow="sm"
-                  mr={4}
-                  id={shortenType}
-                  name={shortenType}
-                  value={shortenType}
-                >
-                  <Text textTransform="capitalize">{shortenType}</Text>
-                </Radio>
-              ))}
-            </RadioGroup>
+            <Center>
+              <RadioGroup
+                as={HStack}
+                spacing={4}
+                py={3}
+                value={shortenType}
+                isDisabled={isPending}
+                onChange={
+                  setShortenType as React.Dispatch<React.SetStateAction<string>>
+                }
+              >
+                {Object.values(SHORTEN_TYPE).map((shortenType) => (
+                  <Radio
+                    key={shortenType}
+                    boxShadow="sm"
+                    // Mr={4}
+                    id={shortenType}
+                    name={shortenType}
+                    value={shortenType}
+                  >
+                    <Text fontSize="sm" textTransform="capitalize">
+                      {shortenType}
+                    </Text>
+                  </Radio>
+                ))}
+              </RadioGroup>
+            </Center>
           </ShowItem>
 
           <ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 3}>

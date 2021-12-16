@@ -16,8 +16,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Center as="main" flexDirection="column">
-        <Stack w="lg" mt={32}>
+      <Center px={8} as="main" flexDirection="column">
+        <Stack w={['full', 'md']} mt={32}>
           <ShowItem direction="down">
             <Title />
           </ShowItem>
