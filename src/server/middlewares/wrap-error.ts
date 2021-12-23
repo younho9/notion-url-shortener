@@ -3,51 +3,51 @@ import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
 
 import {isNotionClientError} from '@notionhq/client/build/src';
 import {
-  getStatus,
-  InvalidInputError,
-  NotionUrlShortenerError,
-  UnknownNotionUrlShortenerError,
+	getStatus,
+	InvalidInputError,
+	NotionUrlShortenerError,
+	UnknownNotionUrlShortenerError,
 } from '../errors';
 
-export const wrapError =
-  (handler: SetReturnType<NextApiHandler, Promise<void>>) =>
-  async (request: NextApiRequest, response: NextApiResponse) =>
-    handler(request, response).catch((error: unknown) => {
-      if (isNotionClientError(error)) {
-        response.status(getStatus(error)).send({
-          code: error.code,
-          message: error.message,
-        });
+export const wrapError
+= (handler: SetReturnType<NextApiHandler, Promise<void>>) =>
+	async (request: NextApiRequest, response: NextApiResponse) =>
+		handler(request, response).catch((error: unknown) => {
+			if (isNotionClientError(error)) {
+				response.status(getStatus(error)).send({
+					code: error.code,
+					message: error.message,
+				});
 
-        return;
-      }
+				return;
+			}
 
-      if (error instanceof InvalidInputError) {
-        response.status(error.status).send({
-          code: error.code,
-          message: error.message,
-          issues: error.issues,
-        });
+			if (error instanceof InvalidInputError) {
+				response.status(error.status).send({
+					code: error.code,
+					message: error.message,
+					issues: error.issues,
+				});
 
-        return;
-      }
+				return;
+			}
 
-      if (error instanceof NotionUrlShortenerError) {
-        response.status(error.status).send({
-          code: error.code,
-          message: error.message,
-        });
+			if (error instanceof NotionUrlShortenerError) {
+				response.status(error.status).send({
+					code: error.code,
+					message: error.message,
+				});
 
-        return;
-      }
+				return;
+			}
 
-      // DEBUG:
-      console.log(error);
+			// DEBUG:
+			console.log(error);
 
-      const defaultError = new UnknownNotionUrlShortenerError();
+			const defaultError = new UnknownNotionUrlShortenerError();
 
-      response.status(defaultError.status).send({
-        code: defaultError.code,
-        message: defaultError.message,
-      });
-    });
+			response.status(defaultError.status).send({
+				code: defaultError.code,
+				message: defaultError.message,
+			});
+		});
