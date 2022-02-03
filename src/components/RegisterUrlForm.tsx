@@ -27,7 +27,7 @@ import ShowItem, {SHOW_ITEM_DELAY_UNIT} from './ShowItem';
 
 const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
 
-const RegisterForm = () => {
+const RegisterUrlForm = () => {
 	const {state, startRegisterShorten, retryRegisterShorten} = useRegisterShortenReducer(); // prettier-ignore
 
 	const isIdle = state.status === IDLE;
@@ -224,4 +224,4 @@ const RegisterForm = () => {
 	);
 };
 
-export default RegisterForm;
+export default RegisterUrlForm;

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '../components/ShowItem';
 import Footer from '../components/Footer';
 import Title from '../components/Title';
-import RegisterForm from '../components/RegisterForm';
+import RegisterUrlForm from '../components/RegisterUrlForm';
 
 const Home: NextPage = () => (
 	<div>
@@ -19,7 +19,7 @@ const Home: NextPage = () => (
 				<ShowItem direction="down">
 					<Title/>
 				</ShowItem>
-				<RegisterForm/>
+				<RegisterUrlForm/>
 			</Stack>
 
 			<ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 4}>
