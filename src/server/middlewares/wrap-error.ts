@@ -12,7 +12,7 @@ import {
 export const wrapError
 = (handler: SetReturnType<NextApiHandler, Promise<void>>) =>
 	async (request: NextApiRequest, response: NextApiResponse) =>
-		handler(request, response).catch((error: unknown) => {
+		handler(request, response).catch((error: Error) => {
 			if (isNotionClientError(error)) {
 				response.status(getStatus(error)).send({
 					code: error.code,
@@ -41,10 +41,7 @@ export const wrapError
 				return;
 			}
 
-			// DEBUG:
-			console.log(error);
-
-			const defaultError = new UnknownNotionUrlShortenerError();
+			const defaultError = new UnknownNotionUrlShortenerError(error);
 
 			response.status(defaultError.status).send({
 				code: defaultError.code,
