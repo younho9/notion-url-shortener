@@ -9,8 +9,8 @@ import {
 	UnknownNotionUrlShortenerError,
 } from '../errors';
 
-export const wrapError
-= (handler: SetReturnType<NextApiHandler, Promise<void>>) =>
+export const wrapError =
+	(handler: SetReturnType<NextApiHandler, Promise<void>>) =>
 	async (request: NextApiRequest, response: NextApiResponse) =>
 		handler(request, response).catch((error: Error) => {
 			if (isNotionClientError(error)) {

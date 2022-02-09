@@ -19,7 +19,7 @@ export const notionUrlShortenerErrorCodeSchema = z.nativeEnum(
 );
 
 export type NotionUrlShortenerErrorCode = z.infer<
-  typeof notionUrlShortenerErrorCodeSchema
+	typeof notionUrlShortenerErrorCodeSchema
 >;
 
 export const NOTION_URL_SHORTENER_ERROR_STATUS_CODE = {
@@ -38,7 +38,7 @@ export const notionUrlShortenerErrorStatusCodeSchema = z.nativeEnum(
 );
 
 export type NotionUrlShortenerErrorStatusCode = z.infer<
-  typeof notionUrlShortenerErrorStatusCodeSchema
+	typeof notionUrlShortenerErrorStatusCodeSchema
 >;
 
 export class NotionUrlShortenerError extends Error {

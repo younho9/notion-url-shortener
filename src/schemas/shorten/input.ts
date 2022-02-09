@@ -39,13 +39,13 @@ export const shortenRegisterInputSchema = z.union([
 ]);
 
 export type CustomShortenRegisterInputSchema = z.infer<
-  typeof customShortenRegisterInputSchema
+	typeof customShortenRegisterInputSchema
 >;
 
 export type GeneratedShortenRegisterInputSchema = z.infer<
-  typeof generatedShortenRegisterInputSchema
+	typeof generatedShortenRegisterInputSchema
 >;
 
 export type ShortenRegisterInputSchema = z.infer<
-  typeof shortenRegisterInputSchema
+	typeof shortenRegisterInputSchema
 >;
