@@ -8,6 +8,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
+	Text,
 } from '@chakra-ui/react';
 import {useState} from 'react';
 import {useVerifyTokenReducer} from '../reducers';
@@ -33,12 +34,15 @@ const TokenAuthModal = () => {
 			onClose={() => ({})}
 		>
 			<ModalOverlay />
-			<ModalContent>
-				<ModalHeader>
-					<Center>Modal Title</Center>
+			<ModalContent w={['xs', 'md']}>
+				<ModalHeader fontSize={['2xl', '3xl']} pb={2}>
+					<Center>👋 Welcome!</Center>
 				</ModalHeader>
 				<form onSubmit={handleSaveTokenForm}>
 					<ModalBody>
+						<Text ml={2} mb={2} fontSize="sm" color="gray.500">
+							Notion API token is required to register a new URL.
+						</Text>
 						<Input
 							isRequired
 							boxShadow="sm"

@@ -19,8 +19,14 @@ const Home: NextPage<{
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Center px={8} as="main" flexDirection="column">
-				<Stack w={['full', 'md']} mt={32}>
+			<Center
+				px={8}
+				pt={[32, 44, 56, 72]}
+				pb={8}
+				as="main"
+				flexDirection="column"
+			>
+				<Stack w={['full', 'md']}>
 					<ShowItem direction="down">
 						<Title />
 					</ShowItem>
