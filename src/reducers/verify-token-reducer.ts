@@ -1,7 +1,4 @@
-import is from '@sindresorhus/is';
-import React, {useEffect} from 'react';
-import {useLocalStorage} from 'react-use';
-import {NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
+import React from 'react';
 import {assertError} from '../utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -9,21 +6,18 @@ export const VERIFY_TOKEN_STATUS_TYPE = {
 	IDLE: 'IDLE',
 	PENDING: 'PENDING',
 	VERIFIED: 'VERIFIED',
-	UNVERIFIED: 'UNVERIFIED',
 	REJECTED: 'REJECTED',
 } as const;
 
-const {IDLE, PENDING, VERIFIED, UNVERIFIED, REJECTED} =
-	VERIFY_TOKEN_STATUS_TYPE;
+const {IDLE, PENDING, VERIFIED, REJECTED} = VERIFY_TOKEN_STATUS_TYPE;
 
 export const VERIFY_TOKEN_ACTION_TYPE = {
 	SUBMIT: 'SUBMIT',
 	VERIFY: 'VERIFY',
 	REJECT: 'REJECT',
-	NO_TOKEN: 'NO_TOKEN',
 } as const;
 
-const {SUBMIT, VERIFY, REJECT, NO_TOKEN} = VERIFY_TOKEN_ACTION_TYPE;
+const {SUBMIT, VERIFY, REJECT} = VERIFY_TOKEN_ACTION_TYPE;
 /* eslint-enable @typescript-eslint/naming-convention */
 
 type VerifyTokenState =
@@ -40,10 +34,6 @@ type VerifyTokenState =
 			error: null;
 	  }
 	| {
-			status: typeof UNVERIFIED;
-			error: null;
-	  }
-	| {
 			status: typeof REJECTED;
 			error: string;
 	  };
@@ -56,9 +46,6 @@ type VerifyTokenAction =
 			type: typeof VERIFY;
 	  }
 	| {
-			type: typeof NO_TOKEN;
-	  }
-	| {
 			type: typeof REJECT;
 			payload: string;
 	  };
@@ -68,14 +55,6 @@ const verifyTokenReducer = (
 	action: VerifyTokenAction,
 ): VerifyTokenState => {
 	switch (action.type) {
-		case NO_TOKEN: {
-			return {
-				...state,
-				status: UNVERIFIED,
-				error: null,
-			};
-		}
-
 		case SUBMIT: {
 			return {
 				...state,
@@ -105,55 +84,55 @@ const verifyTokenReducer = (
 	}
 };
 
+export const getIsVerified = async (
+	token: string,
+): Promise<{isVerified: true} | {isVerified: false; error: Error}> => {
+	try {
+		const response = await fetch(`/api/auth`, {
+			headers: new Headers({
+				'authorization': token,
+				'content-type': 'application/json',
+			}),
+		});
+
+		if (!response.ok) {
+			throw new Error(response.statusText);
+		}
+
+		return {isVerified: true};
+	} catch (error: unknown) {
+		assertError(error);
+
+		return {isVerified: false, error};
+	}
+};
+
 export const useVerifyTokenReducer = (): {
 	status: VerifyTokenState['status'];
 	error: string | null;
-	setToken: (token: string) => void;
+	verifyToken: (token: string) => Promise<boolean>;
 } => {
-	const [token, setToken, removeToken] = useLocalStorage<string>(NOTION_API_TOKEN_STORAGE_KEY); // prettier-ignore
 	const [state, dispatch] = React.useReducer(verifyTokenReducer, {
 		status: IDLE,
 		error: null,
 	});
 
-	useEffect(() => {
-		const verifyToken = async (token: string) => {
-			dispatch({type: SUBMIT});
+	const verifyToken = async (token: string) => {
+		dispatch({type: SUBMIT});
+		const response = await getIsVerified(token);
 
-			try {
-				const response = await fetch(`/api/auth`, {
-					headers: new Headers({
-						'authorization': token,
-						'content-type': 'application/json',
-					}),
-				});
-
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-
-				dispatch({type: VERIFY});
-
-				setToken(token);
-			} catch (error: unknown) {
-				assertError(error);
-
-				dispatch({type: REJECT, payload: error.message});
-				removeToken();
-			}
-		};
-
-		if (is.undefined(token)) {
-			dispatch({type: NO_TOKEN});
-			return;
+		if (response.isVerified) {
+			dispatch({type: VERIFY});
+			return true;
 		}
 
-		void verifyToken(token);
-	}, [token, setToken, removeToken]);
+		dispatch({type: REJECT, payload: response.error.message});
+		return false;
+	};
 
 	return {
 		status: state.status,
 		error: state.error,
-		setToken,
+		verifyToken,
 	};
 };

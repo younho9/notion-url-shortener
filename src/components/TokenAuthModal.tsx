@@ -9,12 +9,22 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Text,
+	FormControl,
+	FormErrorMessage,
 } from '@chakra-ui/react';
-import {useState} from 'react';
-import {useVerifyTokenReducer} from '../reducers';
+import {useLocalStorageValue} from '@react-hookz/web';
+import type React from 'react';
+import {useEffect, useState} from 'react';
+import {NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
+import {getIsVerified, useVerifyTokenReducer} from '../reducers';
 
 const TokenAuthModal = () => {
-	const {status, error, setToken} = useVerifyTokenReducer();
+	const [token, setToken, removeToken] = useLocalStorageValue<string>(
+		NOTION_API_TOKEN_STORAGE_KEY,
+		null,
+		{initializeWithStorageValue: false},
+	);
+	const {status, error, verifyToken} = useVerifyTokenReducer();
 	const [tokenInput, setTokenInput] = useState('');
 
 	const handleSaveTokenForm: React.FormEventHandler<HTMLFormElement> = async (
@@ -23,16 +33,30 @@ const TokenAuthModal = () => {
 		event.preventDefault();
 
 		if (status !== 'PENDING' && status !== 'VERIFIED') {
-			setToken(tokenInput);
+			const isVerified = await verifyToken(tokenInput);
+
+			if (isVerified) {
+				setToken(tokenInput);
+			}
 		}
 	};
 
+	useEffect(() => {
+		if (!token) {
+			return;
+		}
+
+		getIsVerified(token).catch(() => {
+			removeToken();
+		});
+	}, [token, removeToken]);
+
+	if (token) {
+		return null;
+	}
+
 	return (
-		<Modal
-			isCentered
-			isOpen={status === 'UNVERIFIED' || status === 'REJECTED'}
-			onClose={() => ({})}
-		>
+		<Modal isCentered isOpen={status !== 'VERIFIED'} onClose={() => ({})}>
 			<ModalOverlay />
 			<ModalContent w={['xs', 'md']}>
 				<ModalHeader fontSize={['2xl', '3xl']} pb={2}>
@@ -41,26 +65,35 @@ const TokenAuthModal = () => {
 				<form onSubmit={handleSaveTokenForm}>
 					<ModalBody>
 						<Text ml={2} mb={2} fontSize="sm" color="gray.500">
-							Notion API token is required to register a new URL.
+							Notion API token for this database is required to register a new
+							URL.
 						</Text>
-						<Input
-							isRequired
-							boxShadow="sm"
-							id="token"
-							type="text"
-							name="token"
-							placeholder="Enter your Notion API token"
-							value={tokenInput}
-							autoComplete="off"
-							onChange={(event) => {
-								setTokenInput(event.target.value);
-							}}
-						/>
-						{error && <div>{error}</div>}
+						<FormControl isInvalid={status === 'REJECTED'}>
+							<Input
+								isRequired
+								boxShadow="sm"
+								id="token"
+								type="text"
+								name="token"
+								placeholder="Enter your Notion API token"
+								value={tokenInput}
+								autoComplete="off"
+								onChange={(event) => {
+									setTokenInput(event.target.value);
+								}}
+							/>
+							{error && <FormErrorMessage ml={2}>{error}</FormErrorMessage>}
+						</FormControl>
 					</ModalBody>
 
 					<ModalFooter>
-						<Button colorScheme="blue" boxShadow="sm" size="md" type="submit">
+						<Button
+							isLoading={status === 'PENDING'}
+							colorScheme="blue"
+							boxShadow="sm"
+							size="md"
+							type="submit"
+						>
 							Verify
 						</Button>
 					</ModalFooter>
