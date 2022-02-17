@@ -11,6 +11,7 @@ import {
 	Text,
 	FormControl,
 	FormErrorMessage,
+	useDisclosure,
 } from '@chakra-ui/react';
 import {useLocalStorageValue} from '@react-hookz/web';
 import type React from 'react';
@@ -26,6 +27,9 @@ const TokenAuthModal = () => {
 	);
 	const {status, error, verifyToken} = useVerifyTokenReducer();
 	const [tokenInput, setTokenInput] = useState('');
+	const {isOpen, onClose} = useDisclosure({
+		isOpen: !token && status !== 'VERIFIED',
+	});
 
 	const handleSaveTokenForm: React.FormEventHandler<HTMLFormElement> = async (
 		event,
@@ -37,6 +41,7 @@ const TokenAuthModal = () => {
 
 			if (isVerified) {
 				setToken(tokenInput);
+				setTokenInput('');
 			}
 		}
 	};
@@ -51,12 +56,8 @@ const TokenAuthModal = () => {
 		});
 	}, [token, removeToken]);
 
-	if (token) {
-		return null;
-	}
-
 	return (
-		<Modal isCentered isOpen={status !== 'VERIFIED'} onClose={() => ({})}>
+		<Modal isCentered isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent w={['xs', 'md']}>
 				<ModalHeader fontSize={['2xl', '3xl']} pb={2}>
