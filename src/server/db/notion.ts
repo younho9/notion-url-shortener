@@ -1,49 +1,47 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {Client} from '@notionhq/client';
+import type {Client} from '@notionhq/client';
 import type {Except, IterableElement, ValueOf} from 'type-fest';
 import type {
 	CreatePageParameters,
 	QueryDatabaseParameters,
 	QueryDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints';
-import type {ClientOptions} from '@notionhq/client/build/src/Client';
+import {NOTION_DATABASE_ID} from '../../constants';
 
 export type NotionRow = IterableElement<
-QueryDatabaseResponse['results']
+	QueryDatabaseResponse['results']
 >['properties'];
 
-export default class NotionDBClient extends Client {
+export default class NotionDBClient {
+	private readonly notion: Client;
 	private readonly databaseId: string;
 
-	public constructor(
-		options: Partial<ClientOptions> & {auth: string; databaseId: string},
-	) {
-		super(options);
-
-		this.databaseId = options.databaseId;
+	public constructor(notion: Client) {
+		this.notion = notion;
+		this.databaseId = NOTION_DATABASE_ID;
 	}
 
 	public async query<Type extends object>( // eslint-disable-line @typescript-eslint/ban-types
 		parameters?: Except<QueryDatabaseParameters, 'database_id'>,
 	) {
-		const {results} = await this.databases.query({
+		const {results} = await this.notion.databases.query({
 			...parameters,
 			database_id: this.databaseId,
 		});
 
 		return results
 			.map(({properties}) => properties)
-			.map(row => this.parseRow<Type>(row));
+			.map((row) => this.parseRow<Type>(row));
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	public async create<Type extends object>(
 		properties: Extract<
-		CreatePageParameters,
-		Record<'parent', Record<'database_id', unknown>>
+			CreatePageParameters,
+			Record<'parent', Record<'database_id', unknown>>
 		>['properties'],
 	) {
-		const response = await this.pages.create({
+		const response = await this.notion.pages.create({
 			parent: {
 				database_id: this.databaseId,
 			},

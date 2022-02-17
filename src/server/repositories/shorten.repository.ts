@@ -3,23 +3,18 @@ import type {
 	Shorten,
 	CustomShortenRegisterInputSchema,
 	GeneratedShortenRegisterInputSchema,
-	GeneratedShortenType} from '../../schemas';
-import {
-	SHORTEN_TYPE,
+	GeneratedShortenType,
 } from '../../schemas';
+import {SHORTEN_TYPE} from '../../schemas';
 import {
 	OverflowMaximumAttemptError,
 	OverflowMaximumCountError,
 	UrlNotFoundError,
 } from '../errors';
 import type ShortenModel from '../models/shorten.model';
-import type {
-	CharsetIndex} from '../../utils';
-import {
-	encodeWithLeftPad,
-	indexCharset,
-	randomInteger,
-} from '../../utils';
+import type {CharsetIndex} from '../../utils';
+import {encodeWithLeftPad, indexCharset, randomInteger} from '../../utils';
+import {shortenConfig} from '../configs/shorten';
 
 interface EncodedPathConfing {
 	charset: string[];
@@ -54,7 +49,7 @@ export class ShortenRepository {
 
 	public constructor(
 		shortenModel: ShortenModel,
-		config: ShortenRepositoryConfig,
+		config: ShortenRepositoryConfig = shortenConfig,
 	) {
 		this.shortenModel = shortenModel;
 
@@ -95,8 +90,8 @@ export class ShortenRepository {
 
 	async register(
 		parameters:
-		| CustomShortenRegisterInputSchema
-		| GeneratedShortenRegisterInputSchema,
+			| CustomShortenRegisterInputSchema
+			| GeneratedShortenRegisterInputSchema,
 	) {
 		const isOverflowMaximum = await this.isOverflowMaximum();
 

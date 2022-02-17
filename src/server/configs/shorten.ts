@@ -1,0 +1,19 @@
+import {
+	BASE64_CHARSET,
+	MAXIMUM_BASE64_SHORTEN_LENGTH,
+	MAXIMUM_GENERATION_ATTEMPTS,
+	MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH,
+	ZERO_WIDTH_CHARSET,
+} from '../../constants';
+
+export const shortenConfig = {
+	zeroWidth: {
+		charset: ZERO_WIDTH_CHARSET,
+		length: MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH,
+	},
+	base64: {
+		charset: BASE64_CHARSET,
+		length: MAXIMUM_BASE64_SHORTEN_LENGTH,
+	},
+	maximumGenerationAttempts: MAXIMUM_GENERATION_ATTEMPTS,
+};

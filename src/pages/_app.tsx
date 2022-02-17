@@ -8,6 +8,9 @@ const theme = extendTheme({
 		global: {
 			'html, body': {
 				backgroundColor: '#f7f6f3',
+				margin: 0,
+				padding: 0,
+				height: '100%',
 			},
 		},
 	},
@@ -19,7 +22,7 @@ const theme = extendTheme({
 
 const MyApp = ({Component, pageProps}: AppProps) => (
 	<ChakraProvider theme={theme}>
-		<Component {...pageProps}/>
+		<Component {...pageProps} />
 	</ChakraProvider>
 );
 

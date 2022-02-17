@@ -19,7 +19,7 @@ export const notionUrlShortenerErrorCodeSchema = z.nativeEnum(
 );
 
 export type NotionUrlShortenerErrorCode = z.infer<
-  typeof notionUrlShortenerErrorCodeSchema
+	typeof notionUrlShortenerErrorCodeSchema
 >;
 
 export const NOTION_URL_SHORTENER_ERROR_STATUS_CODE = {
@@ -38,7 +38,7 @@ export const notionUrlShortenerErrorStatusCodeSchema = z.nativeEnum(
 );
 
 export type NotionUrlShortenerErrorStatusCode = z.infer<
-  typeof notionUrlShortenerErrorStatusCodeSchema
+	typeof notionUrlShortenerErrorStatusCodeSchema
 >;
 
 export class NotionUrlShortenerError extends Error {
@@ -56,11 +56,11 @@ export class NotionUrlShortenerError extends Error {
 }
 
 export class UnknownNotionUrlShortenerError extends NotionUrlShortenerError {
-	constructor() {
+	constructor(error: Error) {
 		super(
 			NOTION_URL_SHORTENER_ERROR_CODE.UNKNOWN_NOTION_URL_SHORTENER_ERROR,
 			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.UNKNOWN_NOTION_URL_SHORTENER_ERROR,
-			'Unkown internal notion url shortener server error',
+			error.message ?? 'Unkown internal notion url shortener server error',
 		);
 	}
 }

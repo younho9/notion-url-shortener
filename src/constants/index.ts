@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import process from 'process';
+import {extractIdFromUrl} from '@narkdown/notion-utils';
 
 export const ZERO_WIDTH_CHARSET = [
 	'\u200C',
@@ -33,15 +34,21 @@ export const ZERO_WIDTH_CHARSET = [
 	'\uDB40\uDC7F',
 ];
 
-export const BASE64_CHARSET
-  = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+export const BASE64_CHARSET =
+	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 
-export const BASE_URL
-  = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
+export const BASE_URL =
+	process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
 export const NOTION_API_TOKEN = process.env.NOTION_API_TOKEN!;
 
+export const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
+
 export const NOTION_DATABASE_URL = process.env.NEXT_PUBLIC_NOTION_DATABASE_URL!;
+
+export const NOTION_DATABASE_ID = extractIdFromUrl(NOTION_DATABASE_URL);
+
+export const USE_TOKEN_AUTH = process.env.USE_TOKEN_AUTH !== 'false';
 
 export const MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH = Number(
 	process.env.MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH ?? 8,

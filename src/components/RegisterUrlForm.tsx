@@ -17,7 +17,7 @@ import {
 import is from '@sindresorhus/is';
 import type {ShortenType} from '../schemas';
 import {SHORTEN_TYPE} from '../schemas';
-import {BASE_URL} from '../constants';
+import {BASE_URL, NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
 import {
 	REGISTER_SHORTEN_STATUS_TYPE,
 	useRegisterShortenReducer,
@@ -27,7 +27,7 @@ import ShowItem, {SHOW_ITEM_DELAY_UNIT} from './ShowItem';
 
 const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
 
-const RegisterForm = () => {
+const RegisterUrlForm = () => {
 	const {state, startRegisterShorten, retryRegisterShorten} = useRegisterShortenReducer(); // prettier-ignore
 
 	const isIdle = state.status === IDLE;
@@ -40,21 +40,31 @@ const RegisterForm = () => {
 	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
 	const [isCopied, setIsCopied] = React.useState(false);
 
-	const handleSubmitForm: React.FormEventHandler<HTMLFormElement> = async event => {
+	const handleSubmitForm: React.FormEventHandler<HTMLFormElement> = async (
+		event,
+	) => {
 		event.preventDefault();
 
 		if (isIdle) {
-			await startRegisterShorten(
+			const token: unknown = JSON.parse(
+				localStorage.getItem(NOTION_API_TOKEN_STORAGE_KEY) ?? 'null',
+			) as unknown;
+
+			const shortenRequest =
 				shortenType === SHORTEN_TYPE.CUSTOM
 					? {
-						type: shortenType,
-						originUrl,
-						shortenUrlPath: customShortenUrlPath,
-					}
+							type: shortenType,
+							originUrl,
+							shortenUrlPath: customShortenUrlPath,
+					  }
 					: {
-						type: shortenType,
-						originUrl,
-					},
+							type: shortenType,
+							originUrl,
+					  };
+
+			await startRegisterShorten(
+				shortenRequest,
+				is.string(token) ? token : null,
 			);
 		}
 	};
@@ -69,19 +79,19 @@ const RegisterForm = () => {
 	};
 
 	const handleOriginUrlInputChange: React.ChangeEventHandler<
-	HTMLInputElement
-	> = event => {
+		HTMLInputElement
+	> = (event) => {
 		setOriginUrl(event.target.value);
 	};
 
 	const handleCustomShortenUrlPathInputChange: React.ChangeEventHandler<
-	HTMLInputElement
-	> = event => {
+		HTMLInputElement
+	> = (event) => {
 		setCustomShortenUrlPath(event.target.value);
 	};
 
 	const handleCopyButtonClick: React.MouseEventHandler<
-	HTMLButtonElement
+		HTMLButtonElement
 	> = async () => {
 		if (isResolved && is.string(state.shorten.shortenUrlPath)) {
 			const shortenUrl = `${BASE_URL}/${state.shorten.shortenUrlPath}`;
@@ -139,9 +149,11 @@ const RegisterForm = () => {
 								py={3}
 								value={shortenType}
 								isDisabled={isPending}
-								onChange={setShortenType as React.Dispatch<React.SetStateAction<string>>}
+								onChange={
+									setShortenType as React.Dispatch<React.SetStateAction<string>>
+								}
 							>
-								{Object.values(SHORTEN_TYPE).map(shortenType => (
+								{Object.values(SHORTEN_TYPE).map((shortenType) => (
 									<Radio
 										key={shortenType}
 										boxShadow="sm"
@@ -181,10 +193,8 @@ const RegisterForm = () => {
 							status={isResolved ? 'success' : 'error'}
 							variant="left-accent"
 						>
-							<AlertIcon/>
-							<AlertTitle>
-								{isResolved ? 'Success!' : state.error.message}
-							</AlertTitle>
+							<AlertIcon />
+							<AlertTitle>{isResolved ? 'Success!' : state.error}</AlertTitle>
 						</Alert>
 					</ShowItem>
 					{isResolved && (
@@ -224,4 +234,4 @@ const RegisterForm = () => {
 	);
 };
 
-export default RegisterForm;
+export default RegisterUrlForm;

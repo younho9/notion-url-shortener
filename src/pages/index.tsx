@@ -1,32 +1,52 @@
 import {Stack, Center} from '@chakra-ui/react';
-import type {NextPage} from 'next';
+import type {GetServerSideProps, NextPage} from 'next';
 import Head from 'next/head';
 import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '../components/ShowItem';
 import Footer from '../components/Footer';
 import Title from '../components/Title';
-import RegisterForm from '../components/RegisterForm';
+import RegisterUrlForm from '../components/RegisterUrlForm';
+import {USE_TOKEN_AUTH} from '../constants';
+import TokenAuthModal from '../components/TokenAuthModal';
 
-const Home: NextPage = () => (
-	<div>
-		<Head>
-			<title>Notion URL Shortener</title>
-			<meta name="description" content="Notion URL Shortener"/>
-			<link rel="icon" href="/favicon.ico"/>
-		</Head>
+const Home: NextPage<{
+	useTokenAuth: boolean;
+}> = ({useTokenAuth}) => {
+	return (
+		<div>
+			<Head>
+				<title>Notion URL Shortener</title>
+				<meta name="description" content="Notion URL Shortener" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 
-		<Center px={8} as="main" flexDirection="column">
-			<Stack w={['full', 'md']} mt={32}>
-				<ShowItem direction="down">
-					<Title/>
+			<Center
+				px={8}
+				pt={[32, 44, 56, 72]}
+				pb={8}
+				as="main"
+				flexDirection="column"
+			>
+				<Stack w={['full', 'md']}>
+					<ShowItem direction="down">
+						<Title />
+					</ShowItem>
+					<RegisterUrlForm />
+				</Stack>
+
+				<ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 4}>
+					<Footer />
 				</ShowItem>
-				<RegisterForm/>
-			</Stack>
+			</Center>
 
-			<ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 4}>
-				<Footer/>
-			</ShowItem>
-		</Center>
-	</div>
-);
+			{useTokenAuth && <TokenAuthModal />}
+		</div>
+	);
+};
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => ({
+	props: {
+		useTokenAuth: USE_TOKEN_AUTH,
+	},
+});

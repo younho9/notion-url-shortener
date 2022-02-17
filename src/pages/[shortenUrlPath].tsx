@@ -1,25 +1,33 @@
 import type {GetServerSideProps, NextPage} from 'next';
 import Error from 'next/error';
 import is from '@sindresorhus/is';
-import {shortenRepository} from '../server';
+import {Client} from '@notionhq/client';
+
 import {NOTION_URL_SHORTENER_ERROR_STATUS_CODE} from '../server/errors';
+import {ShortenRepository} from '../server/repositories/shorten.repository';
+import ShortenModel from '../server/models/shorten.model';
+import {NOTION_API_TOKEN} from '../constants';
 
 const ShortenUrlPath: NextPage<{
 	statusCode: number;
-}> = ({statusCode}) => <Error statusCode={statusCode}/>;
+}> = ({statusCode}) => <Error statusCode={statusCode} />;
 
 export default ShortenUrlPath;
 
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
 	if (is.string(query.shortenUrlPath)) {
 		try {
-			const response = await shortenRepository.findByShortenUrlPath(
+			const notion = new Client({auth: NOTION_API_TOKEN});
+			const shortenModel = new ShortenModel(notion);
+			const shortenRepository = new ShortenRepository(shortenModel);
+
+			const shorten = await shortenRepository.findByShortenUrlPath(
 				query.shortenUrlPath,
 			);
 
 			return {
 				redirect: {
-					destination: response.originUrl,
+					destination: shorten.originUrl,
 					permanent: false,
 				},
 			};
