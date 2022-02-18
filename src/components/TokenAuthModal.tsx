@@ -31,6 +31,10 @@ const TokenAuthModal = () => {
 		isOpen: !token && status !== 'VERIFIED',
 	});
 
+	if (__DEV__) {
+		console.log('hello');
+	}
+
 	const handleSaveTokenForm: React.FormEventHandler<HTMLFormElement> = async (
 		event,
 	) => {

@@ -5,7 +5,7 @@ module.exports = {
 	...baseConfig,
 	prettier: true,
 	extends: [...baseConfig.extends, 'plugin:@next/next/core-web-vitals'],
-	ignores: ['next-env.d.ts'],
+	ignores: ['*.d.ts'],
 	rules: {
 		...baseConfig.rules,
 		'react/prop-types': 'off',
