@@ -1,6 +1,5 @@
 import {Client} from '@notionhq/client';
 import type {NextApiRequest, NextApiResponse} from 'next';
-import ow from 'ow';
 import {NOTION_DATABASE_ID} from '../../constants';
 import {MethodNotAllowedError} from '../../server/errors';
 import {wrapError} from '../../server/middlewares/wrap-error';
@@ -15,9 +14,8 @@ const handler = async (
 ) => {
 	switch (request.method) {
 		case 'GET': {
-			ow(request.headers.authorization, 'token', ow.string);
-
 			const notion = new Client({auth: request.headers.authorization});
+
 			await notion.databases.retrieve({
 				database_id: NOTION_DATABASE_ID, // eslint-disable-line @typescript-eslint/naming-convention
 			});

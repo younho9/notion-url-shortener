@@ -1,4 +1,3 @@
-import ow from 'ow';
 import {Client} from '@notionhq/client';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
@@ -20,15 +19,9 @@ const handler = async (
 ) => {
 	switch (request.method) {
 		case 'POST': {
-			let notion;
-
-			if (USE_TOKEN_AUTH) {
-				ow(request.headers.authorization, 'token', ow.string);
-
-				notion = new Client({auth: request.headers.authorization});
-			} else {
-				notion = new Client({auth: NOTION_API_TOKEN});
-			}
+			const notion = new Client({
+				auth: USE_TOKEN_AUTH ? request.headers.authorization : NOTION_API_TOKEN,
+			});
 
 			const shortenModel = new ShortenModel(notion);
 			const shortenRepository = new ShortenRepository(shortenModel);
