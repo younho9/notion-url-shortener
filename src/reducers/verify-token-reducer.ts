@@ -96,7 +96,9 @@ export const getIsVerified = async (
 		});
 
 		if (!response.ok) {
-			throw new Error(response.statusText);
+			const {message} = (await response.json()) as {message: string};
+
+			throw new Error(message);
 		}
 
 		return {isVerified: true};

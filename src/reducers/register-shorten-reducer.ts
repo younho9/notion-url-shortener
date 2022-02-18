@@ -153,7 +153,9 @@ export const useRegisterShortenReducer = (): {
 			});
 
 			if (!response.ok) {
-				throw new Error(response.statusText);
+				const {message} = (await response.json()) as {message: string};
+
+				throw new Error(message);
 			}
 
 			const data: ShortenResponse = (await response.json()) as ShortenResponse;
