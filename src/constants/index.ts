@@ -37,9 +37,6 @@ export const ZERO_WIDTH_CHARSET = [
 export const BASE64_CHARSET =
 	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 
-export const BASE_URL =
-	process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
-
 export const NOTION_API_TOKEN = process.env.NOTION_API_TOKEN!;
 
 export const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
