@@ -28,7 +28,7 @@ import ShowItem, {SHOW_ITEM_DELAY_UNIT} from './ShowItem';
 const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
 
 const RegisterUrlForm = () => {
-	const [originUrl, setOriginUrl] = React.useState('');
+	const [originalUrl, setoriginalUrl] = React.useState('');
 	const [shortenType, setShortenType] = React.useState<ShortenType>(SHORTEN_TYPE.ZERO_WIDTH); // prettier-ignore
 	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
 	const [isCopied, setIsCopied] = React.useState(false);
@@ -54,12 +54,12 @@ const RegisterUrlForm = () => {
 				shortenType === SHORTEN_TYPE.CUSTOM
 					? {
 							type: shortenType,
-							originUrl,
+							originalUrl,
 							shortenUrlPath: customShortenUrlPath,
 					  }
 					: {
 							type: shortenType,
-							originUrl,
+							originalUrl,
 					  };
 
 			await startRegisterShorten(
@@ -73,15 +73,15 @@ const RegisterUrlForm = () => {
 		retryRegisterShorten();
 
 		if (isResolved) {
-			setOriginUrl('');
+			setoriginalUrl('');
 			setCustomShortenUrlPath('');
 		}
 	};
 
-	const handleOriginUrlInputChange: React.ChangeEventHandler<
+	const handleoriginalUrlInputChange: React.ChangeEventHandler<
 		HTMLInputElement
 	> = (event) => {
-		setOriginUrl(event.target.value);
+		setoriginalUrl(event.target.value);
 	};
 
 	const handleCustomShortenUrlPathInputChange: React.ChangeEventHandler<
@@ -112,13 +112,13 @@ const RegisterUrlForm = () => {
 						<Input
 							isRequired
 							boxShadow="sm"
-							id="originUrl"
+							id="originalUrl"
 							type="url"
-							name="originUrl"
+							name="originalUrl"
 							placeholder="Enter a URL to Shorten"
-							value={originUrl}
+							value={originalUrl}
 							isDisabled={isPending}
-							onChange={handleOriginUrlInputChange}
+							onChange={handleoriginalUrlInputChange}
 						/>
 					</ShowItem>
 
