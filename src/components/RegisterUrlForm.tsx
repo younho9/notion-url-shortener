@@ -17,7 +17,7 @@ import {
 import is from '@sindresorhus/is';
 import type {ShortenType} from '../schemas';
 import {SHORTEN_TYPE} from '../schemas';
-import {BASE_URL, NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
+import {NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
 import {
 	REGISTER_SHORTEN_STATUS_TYPE,
 	useRegisterShortenReducer,
@@ -28,17 +28,17 @@ import ShowItem, {SHOW_ITEM_DELAY_UNIT} from './ShowItem';
 const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
 
 const RegisterUrlForm = () => {
+	const [originUrl, setOriginUrl] = React.useState('');
+	const [shortenType, setShortenType] = React.useState<ShortenType>(SHORTEN_TYPE.ZERO_WIDTH); // prettier-ignore
+	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
+	const [isCopied, setIsCopied] = React.useState(false);
 	const {state, startRegisterShorten, retryRegisterShorten} = useRegisterShortenReducer(); // prettier-ignore
 
 	const isIdle = state.status === IDLE;
 	const isPending = state.status === PENDING;
 	const isResolved = state.status === RESOLVED;
 	const isRejected = state.status === REJECTED;
-
-	const [originUrl, setOriginUrl] = React.useState('');
-	const [shortenType, setShortenType] = React.useState<ShortenType>(SHORTEN_TYPE.ZERO_WIDTH); // prettier-ignore
-	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
-	const [isCopied, setIsCopied] = React.useState(false);
+	const shortenUrl = state.shorten ? `${window.location.origin}/${state.shorten.shortenUrlPath}` : ''; // prettier-ignore
 
 	const handleSubmitForm: React.FormEventHandler<HTMLFormElement> = async (
 		event,
@@ -93,17 +93,14 @@ const RegisterUrlForm = () => {
 	const handleCopyButtonClick: React.MouseEventHandler<
 		HTMLButtonElement
 	> = async () => {
-		if (isResolved && is.string(state.shorten.shortenUrlPath)) {
-			const shortenUrl = `${BASE_URL}/${state.shorten.shortenUrlPath}`;
-			const isSuccess = await copyTextToClipboard(shortenUrl);
+		const isSuccess = await copyTextToClipboard(shortenUrl);
 
-			if (isSuccess) {
-				setIsCopied(true);
+		if (isSuccess) {
+			setIsCopied(true);
 
-				setTimeout(() => {
-					setIsCopied(false);
-				}, 1500);
-			}
+			setTimeout(() => {
+				setIsCopied(false);
+			}, 1500);
 		}
 	};
 
@@ -207,7 +204,7 @@ const RegisterUrlForm = () => {
 									type="url"
 									name="shortenUrl"
 									placeholder="Shornted URL"
-									value={`${BASE_URL}/${state.shorten.shortenUrlPath}`}
+									value={shortenUrl}
 								/>
 								<InputRightElement width="4.5rem">
 									<Button h="1.75rem" size="sm" onClick={handleCopyButtonClick}>
