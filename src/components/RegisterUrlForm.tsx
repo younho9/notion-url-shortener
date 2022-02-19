@@ -154,7 +154,6 @@ const RegisterUrlForm = () => {
 									<Radio
 										key={shortenType}
 										boxShadow="sm"
-										// Mr={4}
 										id={shortenType}
 										name={shortenType}
 										value={shortenType}
