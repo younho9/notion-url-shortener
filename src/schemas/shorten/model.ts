@@ -2,7 +2,7 @@ import type {ShortenType} from './input';
 
 export interface Shorten {
 	id: number;
-	originUrl: string;
+	originalUrl: string;
 	type: ShortenType;
 	createdAt: string;
 	updatedAt: string;

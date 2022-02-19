@@ -36,11 +36,11 @@ export default class ShortenModel extends NotionDBClient {
 
 	async createShorten({
 		type,
-		originUrl,
+		originalUrl,
 		shortenUrlPath,
 	}: {
 		type: ShortenType;
-		originUrl: string;
+		originalUrl: string;
 		shortenUrlPath: string;
 	}) {
 		const isUnique = await this.isUnique(shortenUrlPath);
@@ -67,9 +67,9 @@ export default class ShortenModel extends NotionDBClient {
 					},
 				],
 			},
-			originUrl: {
+			originalUrl: {
 				type: 'url',
-				url: originUrl,
+				url: originalUrl,
 			},
 			type: {
 				type: 'select',

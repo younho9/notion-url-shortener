@@ -23,13 +23,13 @@ export const urlSchema = z.string().url().max(2048);
 
 export const customShortenRegisterInputSchema = z.object({
 	type: z.literal(SHORTEN_TYPE.CUSTOM),
-	originUrl: urlSchema,
+	originalUrl: urlSchema,
 	shortenUrlPath: z.string().max(100),
 });
 
 export const generatedShortenRegisterInputSchema = z.object({
 	type: z.literal(SHORTEN_TYPE.ZERO_WIDTH).or(z.literal(SHORTEN_TYPE.BASE64)),
-	originUrl: urlSchema,
+	originalUrl: urlSchema,
 	shortenUrlPath: z.null().optional(),
 });
 
