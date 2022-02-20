@@ -51,9 +51,13 @@ const TokenAuthModal = () => {
 			return;
 		}
 
-		getIsVerified(token).catch(() => {
-			removeToken();
-		});
+		(async () => {
+			const {isVerified} = await getIsVerified(token);
+
+			if (!isVerified) {
+				removeToken();
+			}
+		})();
 	}, [token, removeToken]);
 
 	return (
