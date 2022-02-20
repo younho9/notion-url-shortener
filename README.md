@@ -8,6 +8,7 @@
 ## Demo
 
 - [Public](https://notion-url-shortener.vercel.app/)
+- [Private](https://notion-url-shortener-git-develop-younho9.vercel.app/)
 
 ## Getting Started
 
