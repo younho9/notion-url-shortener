@@ -45,7 +45,7 @@ export class ShortenRepository {
 	};
 
 	private readonly maximumAvailableCount: number;
-	private readonly MAXIMUM_GENERATION_ATTEMPTS: number; // eslint-disable-line @typescript-eslint/naming-convention
+	private readonly maximumGenerationAttempts: number;
 
 	public constructor(
 		shortenModel: ShortenModel,
@@ -73,7 +73,7 @@ export class ShortenRepository {
 			this.availableCount.base64,
 		);
 
-		this.MAXIMUM_GENERATION_ATTEMPTS = config.maximumGenerationAttempts;
+		this.maximumGenerationAttempts = config.maximumGenerationAttempts;
 	}
 
 	async findByShortenUrlPath(shortenUrlPath: string) {
@@ -107,7 +107,7 @@ export class ShortenRepository {
 		let created: Shorten | null = null;
 
 		do {
-			if (attempts++ > this.MAXIMUM_GENERATION_ATTEMPTS) {
+			if (attempts++ > this.maximumGenerationAttempts) {
 				throw new OverflowMaximumAttemptError(attempts);
 			}
 
