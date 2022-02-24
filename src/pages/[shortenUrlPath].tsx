@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
 
 			return {
 				redirect: {
-					destination: shorten.originalUrl,
+					destination: new URL(shorten.originalUrl).href,
 					permanent: false,
 				},
 			};
