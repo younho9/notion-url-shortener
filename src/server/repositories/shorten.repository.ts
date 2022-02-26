@@ -81,7 +81,7 @@ export class ShortenRepository {
 		);
 
 		if (response) {
-			void this.shortenModel.incrementVisits(response.id);
+			await this.shortenModel.incrementVisits(response.id);
 
 			return response;
 		}
