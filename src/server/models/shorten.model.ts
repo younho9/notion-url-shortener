@@ -1,11 +1,20 @@
 import is from '@sindresorhus/is';
-import NotionDBClient from '../db/notion';
+import type {Simplify} from 'type-fest';
 import type {Shorten, ShortenType} from '../../schemas';
+import type {DatabaseClient} from '../database/types/database-client';
 import {DuplicateShortenUrlPathError} from '../errors';
 
-export default class ShortenModel extends NotionDBClient {
-	async findByShortenUrlPath(shortenUrlPath: string) {
-		const results = await this.query<Shorten>({
+type Model = Simplify<Shorten>;
+
+export default class ShortenModel {
+	private readonly db: DatabaseClient;
+
+	public constructor(db: DatabaseClient) {
+		this.db = db;
+	}
+
+	public async findByShortenUrlPath(shortenUrlPath: string) {
+		return this.db.queryOne<Model>({
 			filter: {
 				property: 'shortenUrlPath',
 				text: {
@@ -13,16 +22,14 @@ export default class ShortenModel extends NotionDBClient {
 				},
 			},
 		});
-
-		return results[0] ?? null;
 	}
 
-	async isUnique(shortenUrlPath: string) {
-		return is.null_(await this.findByShortenUrlPath(shortenUrlPath));
+	public async isUnique(shortenUrlPath: string) {
+		return is.undefined(await this.findByShortenUrlPath(shortenUrlPath));
 	}
 
-	async getCurrentId() {
-		const results = await this.query<Shorten>({
+	public async getCurrentId() {
+		const result = await this.db.queryOne<Model>({
 			sorts: [
 				{
 					property: 'id',
@@ -31,10 +38,10 @@ export default class ShortenModel extends NotionDBClient {
 			],
 		});
 
-		return (results[0]?.id ?? 0) + 1;
+		return (result?.id ?? 0) + 1;
 	}
 
-	async createShorten({
+	public async createShorten({
 		type,
 		originalUrl,
 		shortenUrlPath,
@@ -51,7 +58,7 @@ export default class ShortenModel extends NotionDBClient {
 
 		const currentId = await this.getCurrentId();
 
-		return this.create<Shorten>({
+		return this.db.create<Model>({
 			id: {
 				type: 'number',
 				number: currentId,
@@ -77,6 +84,23 @@ export default class ShortenModel extends NotionDBClient {
 					name: type,
 				},
 			},
+			visits: {
+				type: 'number',
+				number: 0,
+			},
 		});
+	}
+
+	public async incrementVisits(id: number) {
+		const shorten = await this.db.findById<Model>(id);
+
+		if (shorten) {
+			return this.db.update(id, {
+				visits: {
+					type: 'number',
+					number: shorten.visits + 1,
+				},
+			});
+		}
 	}
 }

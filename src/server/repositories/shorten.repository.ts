@@ -1,4 +1,3 @@
-import is from '@sindresorhus/is';
 import type {
 	Shorten,
 	CustomShortenRegisterInputSchema,
@@ -76,16 +75,18 @@ export class ShortenRepository {
 		this.maximumGenerationAttempts = config.maximumGenerationAttempts;
 	}
 
-	async findByShortenUrlPath(shortenUrlPath: string) {
+	async retrieveShortenUrlPath(shortenUrlPath: string) {
 		const response = await this.shortenModel.findByShortenUrlPath(
 			shortenUrlPath,
 		);
 
-		if (is.null_(response)) {
-			throw new UrlNotFoundError(shortenUrlPath);
+		if (response) {
+			await this.shortenModel.incrementVisits(response.id);
+
+			return response;
 		}
 
-		return response;
+		throw new UrlNotFoundError(shortenUrlPath);
 	}
 
 	async register(
