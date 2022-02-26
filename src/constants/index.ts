@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import process from 'process';
+
 import {extractIdFromUrl} from '@narkdown/notion-utils';
 
 export const ZERO_WIDTH_CHARSET = [

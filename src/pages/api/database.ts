@@ -1,6 +1,7 @@
 import {Client} from '@notionhq/client';
 import type {GetDatabaseResponse} from '@notionhq/client/build/src/api-endpoints';
 import type {NextApiRequest, NextApiResponse} from 'next';
+
 import {NOTION_API_TOKEN, NOTION_DATABASE_ID} from '@/constants';
 import {MethodNotAllowedError} from '@/server/errors';
 import {wrapError} from '@/server/middlewares';

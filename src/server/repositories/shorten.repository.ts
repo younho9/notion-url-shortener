@@ -5,6 +5,7 @@ import type {
 	GeneratedShortenType,
 } from '@/schemas';
 import {SHORTEN_TYPE} from '@/schemas';
+import {shortenConfig} from '@/server/configs/shorten';
 import {
 	OverflowMaximumAttemptError,
 	OverflowMaximumCountError,
@@ -13,7 +14,6 @@ import {
 import type ShortenModel from '@/server/models/shorten.model';
 import type {CharsetIndex} from '@/utils';
 import {encodeWithLeftPad, indexCharset, randomInteger} from '@/utils';
-import {shortenConfig} from '@/server/configs/shorten';
 
 interface EncodedPathConfing {
 	charset: string[];
@@ -105,7 +105,7 @@ export class ShortenRepository {
 		}
 
 		let attempts = 0;
-		let created: Shorten | null = null;
+		let created: Shorten | undefined;
 
 		do {
 			if (attempts++ > this.maximumGenerationAttempts) {

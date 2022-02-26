@@ -1,5 +1,6 @@
 import {Center, Text, HStack, Icon} from '@chakra-ui/react';
 import {SiNotion, SiGithub} from 'react-icons/si';
+
 import {NOTION_DATABASE_URL} from '@/constants';
 
 const Footer = () => (

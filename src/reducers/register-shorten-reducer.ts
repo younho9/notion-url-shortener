@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
 import React from 'react';
+
 import type {ShortenResponse} from '@/pages/api/shortens';
 import type {
 	CustomShortenRegisterInputSchema,
@@ -8,62 +9,42 @@ import type {
 } from '@/schemas';
 import {assertError} from '@/utils';
 
-/* eslint-disable @typescript-eslint/naming-convention */
-export const REGISTER_SHORTEN_STATUS_TYPE = {
-	IDLE: 'idle',
-	PENDING: 'pending',
-	RESOLVED: 'resolved',
-	REJECTED: 'rejected',
-} as const;
-
-const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
-
-export const REGISTER_SHORTEN_ACTION_TYPE = {
-	SUBMIT: 'SUBMIT',
-	RESOLVE: 'RESOLVE',
-	REJECT: 'REJECT',
-	RETRY: 'RETRY',
-} as const;
-
-const {SUBMIT, RESOLVE, REJECT, RETRY} = REGISTER_SHORTEN_ACTION_TYPE;
-/* eslint-enable @typescript-eslint/naming-convention */
-
 type RegisterShortenState =
 	| {
-			status: typeof IDLE;
-			shorten: null;
-			error: null;
+			status: 'IDLE';
+			shorten?: undefined;
+			error?: undefined;
 	  }
 	| {
-			status: typeof PENDING;
-			shorten: null;
-			error: null;
+			status: 'PENDING';
+			shorten?: undefined;
+			error?: undefined;
 	  }
 	| {
-			status: typeof RESOLVED;
+			status: 'RESOLVED';
 			shorten: Shorten;
-			error: null;
+			error?: undefined;
 	  }
 	| {
-			status: typeof REJECTED;
-			shorten: null;
+			status: 'REJECTED';
+			shorten?: undefined;
 			error: string;
 	  };
 
 type RegisterShortenAction =
 	| {
-			type: typeof SUBMIT;
+			type: 'SUBMIT';
 	  }
 	| {
-			type: typeof RESOLVE;
+			type: 'RESOLVE';
 			payload: Shorten;
 	  }
 	| {
-			type: typeof REJECT;
+			type: 'REJECT';
 			payload: string;
 	  }
 	| {
-			type: typeof RETRY;
+			type: 'RETRY';
 	  };
 
 const registerShortenReducer = (
@@ -71,39 +52,29 @@ const registerShortenReducer = (
 	action: RegisterShortenAction,
 ): RegisterShortenState => {
 	switch (action.type) {
-		case SUBMIT: {
+		case 'SUBMIT': {
 			return {
-				...state,
-				status: PENDING,
-				shorten: null,
-				error: null,
+				status: 'PENDING',
 			};
 		}
 
-		case RESOLVE: {
+		case 'RESOLVE': {
 			return {
-				...state,
-				status: RESOLVED,
+				status: 'RESOLVED',
 				shorten: action.payload,
-				error: null,
 			};
 		}
 
-		case REJECT: {
+		case 'REJECT': {
 			return {
-				...state,
-				status: REJECTED,
-				shorten: null,
+				status: 'REJECTED',
 				error: action.payload,
 			};
 		}
 
-		case RETRY: {
+		case 'RETRY': {
 			return {
-				...state,
-				status: IDLE,
-				shorten: null,
-				error: null,
+				status: 'IDLE',
 			};
 		}
 
@@ -118,23 +89,21 @@ export const useRegisterShortenReducer = (): {
 		shortenRequest:
 			| CustomShortenRegisterInputSchema
 			| GeneratedShortenRegisterInputSchema,
-		token: string | null,
+		token?: string,
 	) => Promise<void>;
 	retryRegisterShorten: () => void;
 } => {
 	const [state, dispatch] = React.useReducer(registerShortenReducer, {
-		status: IDLE,
-		shorten: null,
-		error: null,
+		status: 'IDLE',
 	});
 
 	const startRegisterShorten = async (
 		shortenRequest:
 			| CustomShortenRegisterInputSchema
 			| GeneratedShortenRegisterInputSchema,
-		token: string | null,
+		token?: string,
 	) => {
-		dispatch({type: SUBMIT});
+		dispatch({type: 'SUBMIT'});
 
 		try {
 			const headers = new Headers(
@@ -160,16 +129,16 @@ export const useRegisterShortenReducer = (): {
 
 			const data: ShortenResponse = (await response.json()) as ShortenResponse;
 
-			dispatch({type: RESOLVE, payload: data.shorten});
+			dispatch({type: 'RESOLVE', payload: data.shorten});
 		} catch (error: unknown) {
 			assertError(error);
 
-			dispatch({type: REJECT, payload: error.message});
+			dispatch({type: 'REJECT', payload: error.message});
 		}
 	};
 
 	const retryRegisterShorten = () => {
-		dispatch({type: RETRY});
+		dispatch({type: 'RETRY'});
 	};
 
 	return {
