@@ -1,8 +1,8 @@
 import {Client} from '@notionhq/client';
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {NOTION_DATABASE_ID} from '../../constants';
-import {MethodNotAllowedError} from '../../server/errors';
-import {wrapError} from '../../server/middlewares/wrap-error';
+import {NOTION_DATABASE_ID} from '@/constants';
+import {MethodNotAllowedError} from '@/server/errors';
+import {wrapError} from '@/server/middlewares/wrap-error';
 
 type Data = {
 	message: string;

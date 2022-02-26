@@ -4,7 +4,7 @@ import {
 	MAXIMUM_GENERATION_ATTEMPTS,
 	MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH,
 	ZERO_WIDTH_CHARSET,
-} from '../../constants';
+} from '@/constants';
 
 export const shortenConfig = {
 	zeroWidth: {

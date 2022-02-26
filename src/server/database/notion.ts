@@ -8,8 +8,8 @@ import type {
 	UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints';
 import type {ClientOptions} from '@notionhq/client/build/src/Client';
-import {NOTION_DATABASE_ID} from '../../constants';
-import type {DatabaseClient} from './types/database-client';
+import {NOTION_DATABASE_ID} from '@/constants';
+import type {DatabaseClient} from '@/server/database/types/database-client';
 
 export type NotionRow = IterableElement<
 	QueryDatabaseResponse['results']

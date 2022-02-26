@@ -15,15 +15,15 @@ import {
 	HStack,
 } from '@chakra-ui/react';
 import is from '@sindresorhus/is';
-import type {ShortenType} from '../schemas';
-import {SHORTEN_TYPE} from '../schemas';
-import {NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
+import type {ShortenType} from '@/schemas';
 import {
 	REGISTER_SHORTEN_STATUS_TYPE,
 	useRegisterShortenReducer,
-} from '../reducers';
-import {copyTextToClipboard} from '../utils';
-import ShowItem, {SHOW_ITEM_DELAY_UNIT} from './ShowItem';
+} from '@/reducers';
+import {SHORTEN_TYPE} from '@/schemas';
+import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
+import {copyTextToClipboard} from '@/utils';
+import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
 
 const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
 
