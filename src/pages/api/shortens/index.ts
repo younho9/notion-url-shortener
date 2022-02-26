@@ -1,13 +1,13 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 
-import {validate, wrapError} from '@/server/middlewares';
+import {NOTION_API_TOKEN, USE_TOKEN_AUTH} from '@/constants';
 import type {Shorten} from '@/schemas';
 import {shortenRegisterInputSchema} from '@/schemas';
+import NotionDatabaseClient from '@/server/database/notion';
 import {MethodNotAllowedError} from '@/server/errors';
-import {NOTION_API_TOKEN, USE_TOKEN_AUTH} from '@/constants';
+import {validate, wrapError} from '@/server/middlewares';
 import {ShortenModel} from '@/server/models';
 import {ShortenRepository} from '@/server/repositories/shorten.repository';
-import NotionDatabaseClient from '@/server/database/notion';
 
 export interface ShortenResponse {
 	shorten: Shorten;

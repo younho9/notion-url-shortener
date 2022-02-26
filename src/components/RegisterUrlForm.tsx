@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	Alert,
 	AlertIcon,
@@ -15,17 +14,14 @@ import {
 	HStack,
 } from '@chakra-ui/react';
 import is from '@sindresorhus/is';
-import type {ShortenType} from '@/schemas';
-import {
-	REGISTER_SHORTEN_STATUS_TYPE,
-	useRegisterShortenReducer,
-} from '@/reducers';
-import {SHORTEN_TYPE} from '@/schemas';
-import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
-import {copyTextToClipboard} from '@/utils';
-import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
+import React from 'react';
 
-const {IDLE, PENDING, RESOLVED, REJECTED} = REGISTER_SHORTEN_STATUS_TYPE;
+import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
+import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
+import {useRegisterShortenReducer} from '@/reducers';
+import type {ShortenType} from '@/schemas';
+import {SHORTEN_TYPE} from '@/schemas';
+import {copyTextToClipboard} from '@/utils';
 
 const RegisterUrlForm = () => {
 	const [originalUrl, setoriginalUrl] = React.useState('');
@@ -34,10 +30,10 @@ const RegisterUrlForm = () => {
 	const [isCopied, setIsCopied] = React.useState(false);
 	const {state, startRegisterShorten, retryRegisterShorten} = useRegisterShortenReducer(); // prettier-ignore
 
-	const isIdle = state.status === IDLE;
-	const isPending = state.status === PENDING;
-	const isResolved = state.status === RESOLVED;
-	const isRejected = state.status === REJECTED;
+	const isIdle = state.status === 'IDLE';
+	const isPending = state.status === 'PENDING';
+	const isResolved = state.status === 'RESOLVED';
+	const isRejected = state.status === 'REJECTED';
 	const shortenUrl = state.shorten ? `${window.location.origin}/${state.shorten.shortenUrlPath}` : ''; // prettier-ignore
 
 	const handleSubmitForm: React.FormEventHandler<HTMLFormElement> = async (

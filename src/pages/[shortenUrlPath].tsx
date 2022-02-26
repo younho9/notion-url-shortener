@@ -1,12 +1,12 @@
+import is from '@sindresorhus/is';
 import type {GetServerSideProps, NextPage} from 'next';
 import Error from 'next/error';
-import is from '@sindresorhus/is';
 
-import {NOTION_URL_SHORTENER_ERROR_STATUS_CODE} from '@/server/errors';
-import {ShortenRepository} from '@/server/repositories/shorten.repository';
-import ShortenModel from '@/server/models/shorten.model';
 import {NOTION_API_TOKEN} from '@/constants';
 import NotionDatabaseClient from '@/server/database/notion';
+import {NOTION_URL_SHORTENER_ERROR_STATUS_CODE} from '@/server/errors';
+import ShortenModel from '@/server/models/shorten.model';
+import {ShortenRepository} from '@/server/repositories/shorten.repository';
 
 const ShortenUrlPath: NextPage<{
 	statusCode: number;

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {Client} from '@notionhq/client';
-import type {Except, IterableElement, ValueOf} from 'type-fest';
 import type {
 	CreatePageParameters,
 	QueryDatabaseParameters,
@@ -8,6 +7,8 @@ import type {
 	UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints';
 import type {ClientOptions} from '@notionhq/client/build/src/Client';
+import type {Except, IterableElement, ValueOf} from 'type-fest';
+
 import {NOTION_DATABASE_ID} from '@/constants';
 import type {DatabaseClient} from '@/server/database/types/database-client';
 

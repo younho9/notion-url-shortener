@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
 import type {Simplify} from 'type-fest';
+
 import type {Shorten, ShortenType} from '@/schemas';
 import type {DatabaseClient} from '@/server/database/types/database-client';
 import {DuplicateShortenUrlPathError} from '@/server/errors';

@@ -1,12 +1,13 @@
 import {Stack, Center} from '@chakra-ui/react';
 import type {GetServerSideProps, NextPage} from 'next';
 import Head from 'next/head';
-import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
+
 import Footer from '@/components/Footer';
-import Title from '@/components/Title';
 import RegisterUrlForm from '@/components/RegisterUrlForm';
-import {USE_TOKEN_AUTH} from '@/constants';
+import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
+import Title from '@/components/Title';
 import TokenAuthModal from '@/components/TokenAuthModal';
+import {USE_TOKEN_AUTH} from '@/constants';
 
 const Home: NextPage<{
 	useTokenAuth: boolean;

@@ -1,5 +1,6 @@
 import type {NextApiHandler, NextApiRequest, NextApiResponse} from 'next';
 import {z} from 'zod';
+
 import {BadRequestError, InvalidInputError} from '@/server/errors';
 
 export function validate<Output, Def extends z.ZodTypeDef, Input = Output>(

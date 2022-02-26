@@ -1,13 +1,6 @@
+import is from '@sindresorhus/is';
 import type {HTMLMotionProps} from 'framer-motion';
 import {motion} from 'framer-motion';
-
-type Falsy = false | 0 | 0n | '' | null | undefined;
-
-type Truthy<T> = T extends Falsy ? never : T;
-
-function isTruthy<T>(value: T): value is Truthy<T> {
-	return Boolean(value);
-}
 
 interface ShowItemProps extends HTMLMotionProps<'div'> {
 	direction: 'up' | 'down' | 'left' | 'right';
@@ -15,7 +8,7 @@ interface ShowItemProps extends HTMLMotionProps<'div'> {
 	delay?: number;
 }
 
-export const SHOW_ITEM_DELAY_UNIT = 0.1;
+export const SHOW_ITEM_DELAY_UNIT = 0.1; // eslint-disable-line @typescript-eslint/naming-convention
 
 const ShowItem = ({
 	direction = 'up',
@@ -29,7 +22,7 @@ const ShowItem = ({
 			direction === 'down' && (['y', -amount] as const),
 			direction === 'left' && (['x', amount] as const),
 			direction === 'right' && (['x', -amount] as const),
-		].filter(isTruthy),
+		].filter(is.truthy),
 	);
 
 	return (

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {get} from '@younho9/object';
 import is from '@sindresorhus/is';
+import {get} from '@younho9/object';
 import {z} from 'zod';
 
 export const NOTION_URL_SHORTENER_ERROR_CODE = {

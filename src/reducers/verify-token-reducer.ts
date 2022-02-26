@@ -1,52 +1,34 @@
 import React from 'react';
+
 import {assertError} from '@/utils';
-
-/* eslint-disable @typescript-eslint/naming-convention */
-export const VERIFY_TOKEN_STATUS_TYPE = {
-	IDLE: 'IDLE',
-	PENDING: 'PENDING',
-	VERIFIED: 'VERIFIED',
-	REJECTED: 'REJECTED',
-} as const;
-
-const {IDLE, PENDING, VERIFIED, REJECTED} = VERIFY_TOKEN_STATUS_TYPE;
-
-export const VERIFY_TOKEN_ACTION_TYPE = {
-	SUBMIT: 'SUBMIT',
-	VERIFY: 'VERIFY',
-	REJECT: 'REJECT',
-} as const;
-
-const {SUBMIT, VERIFY, REJECT} = VERIFY_TOKEN_ACTION_TYPE;
-/* eslint-enable @typescript-eslint/naming-convention */
 
 type VerifyTokenState =
 	| {
-			status: typeof IDLE;
-			error: null;
+			status: 'IDLE';
+			error: undefined;
 	  }
 	| {
-			status: typeof PENDING;
-			error: null;
+			status: 'PENDING';
+			error: undefined;
 	  }
 	| {
-			status: typeof VERIFIED;
-			error: null;
+			status: 'VERIFIED';
+			error: undefined;
 	  }
 	| {
-			status: typeof REJECTED;
+			status: 'REJECTED';
 			error: string;
 	  };
 
 type VerifyTokenAction =
 	| {
-			type: typeof SUBMIT;
+			type: 'SUBMIT';
 	  }
 	| {
-			type: typeof VERIFY;
+			type: 'VERIFY';
 	  }
 	| {
-			type: typeof REJECT;
+			type: 'REJECT';
 			payload: string;
 	  };
 
@@ -55,26 +37,26 @@ const verifyTokenReducer = (
 	action: VerifyTokenAction,
 ): VerifyTokenState => {
 	switch (action.type) {
-		case SUBMIT: {
+		case 'SUBMIT': {
 			return {
 				...state,
-				status: PENDING,
-				error: null,
+				status: 'PENDING',
+				error: undefined,
 			};
 		}
 
-		case VERIFY: {
+		case 'VERIFY': {
 			return {
 				...state,
-				status: VERIFIED,
-				error: null,
+				status: 'VERIFIED',
+				error: undefined,
 			};
 		}
 
-		case REJECT: {
+		case 'REJECT': {
 			return {
 				...state,
-				status: REJECTED,
+				status: 'REJECTED',
 				error: action.payload,
 			};
 		}
@@ -111,24 +93,24 @@ export const getIsVerified = async (
 
 export const useVerifyTokenReducer = (): {
 	status: VerifyTokenState['status'];
-	error: string | null;
+	error: string | undefined;
 	verifyToken: (token: string) => Promise<boolean>;
 } => {
 	const [state, dispatch] = React.useReducer(verifyTokenReducer, {
-		status: IDLE,
-		error: null,
+		status: 'IDLE',
+		error: undefined,
 	});
 
 	const verifyToken = async (token: string) => {
-		dispatch({type: SUBMIT});
+		dispatch({type: 'SUBMIT'});
 		const response = await getIsVerified(token);
 
 		if (response.isVerified) {
-			dispatch({type: VERIFY});
+			dispatch({type: 'VERIFY'});
 			return true;
 		}
 
-		dispatch({type: REJECT, payload: response.error.message});
+		dispatch({type: 'REJECT', payload: response.error.message});
 		return false;
 	};
 

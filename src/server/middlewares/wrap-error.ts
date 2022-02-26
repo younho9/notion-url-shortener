@@ -1,7 +1,7 @@
-import type {SetReturnType} from 'type-fest';
-import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
-
 import {isNotionClientError} from '@notionhq/client/build/src';
+import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
+import type {SetReturnType} from 'type-fest';
+
 import {
 	getStatus,
 	InvalidInputError,

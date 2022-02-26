@@ -1,4 +1,3 @@
-/* eslint-disable */
 // Extracted from https://github.com/sindresorhus/ts-extras/blob/87c2c0d2a377e568a5daa633c5c23b9f5a84c14c/source/assert-error.ts
 
 const {toString} = Object.prototype;
@@ -26,6 +25,10 @@ try {
 */
 export function assertError(value: unknown): asserts value is Error {
 	if (!(value instanceof Error || toString.call(value) === '[object Error]')) {
-		throw new TypeError(`Expected an \`Error\`, got \`${JSON.stringify(value)}\` (${typeof value})`);
+		throw new TypeError(
+			`Expected an \`Error\`, got \`${JSON.stringify(
+				value,
+			)}\` (${typeof value})`,
+		);
 	}
 }
