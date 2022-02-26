@@ -84,6 +84,23 @@ export default class ShortenModel {
 					name: type,
 				},
 			},
+			visits: {
+				type: 'number',
+				number: 0,
+			},
 		});
+	}
+
+	public async incrementVisits(id: number) {
+		const shorten = await this.db.findById<Model>(id);
+
+		if (shorten) {
+			return this.db.update(id, {
+				visits: {
+					type: 'number',
+					number: shorten.visits + 1,
+				},
+			});
+		}
 	}
 }

@@ -75,12 +75,14 @@ export class ShortenRepository {
 		this.maximumGenerationAttempts = config.maximumGenerationAttempts;
 	}
 
-	async findByShortenUrlPath(shortenUrlPath: string) {
+	async retrieveShortenUrlPath(shortenUrlPath: string) {
 		const response = await this.shortenModel.findByShortenUrlPath(
 			shortenUrlPath,
 		);
 
 		if (response) {
+			void this.shortenModel.incrementVisits(response.id);
+
 			return response;
 		}
 

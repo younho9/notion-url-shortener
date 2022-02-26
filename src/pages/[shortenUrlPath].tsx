@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
 			const shortenModel = new ShortenModel(notionDatabase);
 			const shortenRepository = new ShortenRepository(shortenModel);
 
-			const shorten = await shortenRepository.findByShortenUrlPath(
+			const shorten = await shortenRepository.retrieveShortenUrlPath(
 				query.shortenUrlPath,
 			);
 
