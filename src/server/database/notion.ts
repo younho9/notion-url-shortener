@@ -150,9 +150,10 @@ export default class NotionDatabaseClient
 			value.title.map(({plain_text}) => plain_text).join('');
 
 		const number = ({number}: Extract<ValueOf<NotionRow>, {type: 'number'}>) =>
-			number;
+			number ?? 0;
 
-		const url = ({url}: Extract<ValueOf<NotionRow>, {type: 'url'}>) => url;
+		const url = ({url}: Extract<ValueOf<NotionRow>, {type: 'url'}>) =>
+			url ?? '';
 
 		const select = ({select}: Extract<ValueOf<NotionRow>, {type: 'select'}>) =>
 			select?.name ?? '';
