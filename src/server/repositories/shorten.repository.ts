@@ -1,4 +1,3 @@
-import is from '@sindresorhus/is';
 import type {
 	Shorten,
 	CustomShortenRegisterInputSchema,
@@ -81,11 +80,11 @@ export class ShortenRepository {
 			shortenUrlPath,
 		);
 
-		if (is.null_(response)) {
-			throw new UrlNotFoundError(shortenUrlPath);
+		if (response) {
+			return response;
 		}
 
-		return response;
+		throw new UrlNotFoundError(shortenUrlPath);
 	}
 
 	async register(

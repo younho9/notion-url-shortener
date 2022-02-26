@@ -1,4 +1,3 @@
-import {Client} from '@notionhq/client';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import {validate, wrapError} from '../../../server/middlewares';
@@ -8,6 +7,7 @@ import {MethodNotAllowedError} from '../../../server/errors';
 import {NOTION_API_TOKEN, USE_TOKEN_AUTH} from '../../../constants';
 import {ShortenModel} from '../../../server/models';
 import {ShortenRepository} from '../../../server/repositories/shorten.repository';
+import NotionDatabaseClient from '../../../server/database/notion';
 
 export interface ShortenResponse {
 	shorten: Shorten;
@@ -19,13 +19,11 @@ const handler = async (
 ) => {
 	switch (request.method) {
 		case 'POST': {
-			const notion = new Client({
+			const notionDatabase = new NotionDatabaseClient({
 				auth: USE_TOKEN_AUTH ? request.headers.authorization : NOTION_API_TOKEN,
 			});
-
-			const shortenModel = new ShortenModel(notion);
+			const shortenModel = new ShortenModel(notionDatabase);
 			const shortenRepository = new ShortenRepository(shortenModel);
-
 			const shorten = await shortenRepository.register(request.body);
 
 			response.status(200).json({shorten});
