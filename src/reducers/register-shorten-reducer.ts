@@ -12,22 +12,22 @@ import {assertError} from '@/utils';
 type RegisterShortenState =
 	| {
 			status: 'IDLE';
-			shorten: undefined;
-			error: undefined;
+			shorten?: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'PENDING';
-			shorten: undefined;
-			error: undefined;
+			shorten?: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'RESOLVED';
 			shorten: Shorten;
-			error: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'REJECTED';
-			shorten: undefined;
+			shorten?: undefined;
 			error: string;
 	  };
 
@@ -54,37 +54,27 @@ const registerShortenReducer = (
 	switch (action.type) {
 		case 'SUBMIT': {
 			return {
-				...state,
 				status: 'PENDING',
-				shorten: undefined,
-				error: undefined,
 			};
 		}
 
 		case 'RESOLVE': {
 			return {
-				...state,
 				status: 'RESOLVED',
 				shorten: action.payload,
-				error: undefined,
 			};
 		}
 
 		case 'REJECT': {
 			return {
-				...state,
 				status: 'REJECTED',
-				shorten: undefined,
 				error: action.payload,
 			};
 		}
 
 		case 'RETRY': {
 			return {
-				...state,
 				status: 'IDLE',
-				shorten: undefined,
-				error: undefined,
 			};
 		}
 
@@ -99,21 +89,19 @@ export const useRegisterShortenReducer = (): {
 		shortenRequest:
 			| CustomShortenRegisterInputSchema
 			| GeneratedShortenRegisterInputSchema,
-		token: string | undefined,
+		token?: string,
 	) => Promise<void>;
 	retryRegisterShorten: () => void;
 } => {
 	const [state, dispatch] = React.useReducer(registerShortenReducer, {
 		status: 'IDLE',
-		shorten: undefined,
-		error: undefined,
 	});
 
 	const startRegisterShorten = async (
 		shortenRequest:
 			| CustomShortenRegisterInputSchema
 			| GeneratedShortenRegisterInputSchema,
-		token: string | undefined,
+		token?: string,
 	) => {
 		dispatch({type: 'SUBMIT'});
 

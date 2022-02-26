@@ -105,7 +105,7 @@ export class ShortenRepository {
 		}
 
 		let attempts = 0;
-		let created: Shorten | undefined = null;
+		let created: Shorten | undefined;
 
 		do {
 			if (attempts++ > this.maximumGenerationAttempts) {

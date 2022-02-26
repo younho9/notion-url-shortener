@@ -5,15 +5,15 @@ import {assertError} from '@/utils';
 type VerifyTokenState =
 	| {
 			status: 'IDLE';
-			error: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'PENDING';
-			error: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'VERIFIED';
-			error: undefined;
+			error?: undefined;
 	  }
 	| {
 			status: 'REJECTED';
@@ -39,23 +39,18 @@ const verifyTokenReducer = (
 	switch (action.type) {
 		case 'SUBMIT': {
 			return {
-				...state,
 				status: 'PENDING',
-				error: undefined,
 			};
 		}
 
 		case 'VERIFY': {
 			return {
-				...state,
 				status: 'VERIFIED',
-				error: undefined,
 			};
 		}
 
 		case 'REJECT': {
 			return {
-				...state,
 				status: 'REJECTED',
 				error: action.payload,
 			};
@@ -93,12 +88,11 @@ export const getIsVerified = async (
 
 export const useVerifyTokenReducer = (): {
 	status: VerifyTokenState['status'];
-	error: string | undefined;
+	error?: string;
 	verifyToken: (token: string) => Promise<boolean>;
 } => {
 	const [state, dispatch] = React.useReducer(verifyTokenReducer, {
 		status: 'IDLE',
-		error: undefined,
 	});
 
 	const verifyToken = async (token: string) => {
