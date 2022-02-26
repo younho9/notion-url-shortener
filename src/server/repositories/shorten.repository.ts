@@ -3,17 +3,17 @@ import type {
 	CustomShortenRegisterInputSchema,
 	GeneratedShortenRegisterInputSchema,
 	GeneratedShortenType,
-} from '../../schemas';
-import {SHORTEN_TYPE} from '../../schemas';
+} from '@/schemas';
+import {SHORTEN_TYPE} from '@/schemas';
 import {
 	OverflowMaximumAttemptError,
 	OverflowMaximumCountError,
 	UrlNotFoundError,
-} from '../errors';
-import type ShortenModel from '../models/shorten.model';
-import type {CharsetIndex} from '../../utils';
-import {encodeWithLeftPad, indexCharset, randomInteger} from '../../utils';
-import {shortenConfig} from '../configs/shorten';
+} from '@/server/errors';
+import type ShortenModel from '@/server/models/shorten.model';
+import type {CharsetIndex} from '@/utils';
+import {encodeWithLeftPad, indexCharset, randomInteger} from '@/utils';
+import {shortenConfig} from '@/server/configs/shorten';
 
 interface EncodedPathConfing {
 	charset: string[];

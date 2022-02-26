@@ -1,5 +1,5 @@
 import React from 'react';
-import {assertError} from '../utils';
+import {assertError} from '@/utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export const VERIFY_TOKEN_STATUS_TYPE = {

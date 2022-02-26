@@ -1,12 +1,12 @@
 import is from '@sindresorhus/is';
 import React from 'react';
-import type {ShortenResponse} from '../pages/api/shortens';
+import type {ShortenResponse} from '@/pages/api/shortens';
 import type {
 	CustomShortenRegisterInputSchema,
 	GeneratedShortenRegisterInputSchema,
 	Shorten,
-} from '../schemas';
-import {assertError} from '../utils';
+} from '@/schemas';
+import {assertError} from '@/utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export const REGISTER_SHORTEN_STATUS_TYPE = {

@@ -16,8 +16,8 @@ import {
 import {useLocalStorageValue} from '@react-hookz/web';
 import type React from 'react';
 import {useEffect, useState} from 'react';
-import {NOTION_API_TOKEN_STORAGE_KEY} from '../constants';
-import {getIsVerified, useVerifyTokenReducer} from '../reducers';
+import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
+import {getIsVerified, useVerifyTokenReducer} from '@/reducers';
 
 const TokenAuthModal = () => {
 	const [token, setToken, removeToken] = useLocalStorageValue<string>(

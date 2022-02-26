@@ -7,7 +7,7 @@ import {
 	InvalidInputError,
 	NotionUrlShortenerError,
 	UnknownNotionUrlShortenerError,
-} from '../errors';
+} from '@/server/errors';
 
 export const wrapError =
 	(handler: SetReturnType<NextApiHandler, Promise<void>>) =>
