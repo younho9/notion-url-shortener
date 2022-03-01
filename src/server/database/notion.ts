@@ -54,6 +54,12 @@ export default class NotionDatabaseClient
 		});
 	}
 
+	public async retrieve() {
+		return this.databases.retrieve({
+			database_id: this.databaseId,
+		});
+	}
+
 	public async create<Type extends Record<string, unknown>>(
 		properties: Extract<
 			CreatePageParameters,

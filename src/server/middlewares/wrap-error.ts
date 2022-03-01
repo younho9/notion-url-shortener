@@ -14,7 +14,7 @@ export const wrapError =
 	async (request: NextApiRequest, response: NextApiResponse) =>
 		handler(request, response).catch((error: Error) => {
 			if (isNotionClientError(error)) {
-				response.status(getStatus(error)).send({
+				response.status(getStatus(error)).json({
 					code: error.code,
 					message: error.message,
 				});
@@ -23,7 +23,7 @@ export const wrapError =
 			}
 
 			if (error instanceof InvalidInputError) {
-				response.status(error.status).send({
+				response.status(error.status).json({
 					code: error.code,
 					message: error.message,
 					issues: error.issues,
@@ -33,7 +33,7 @@ export const wrapError =
 			}
 
 			if (error instanceof NotionUrlShortenerError) {
-				response.status(error.status).send({
+				response.status(error.status).json({
 					code: error.code,
 					message: error.message,
 				});
@@ -43,7 +43,7 @@ export const wrapError =
 
 			const defaultError = new UnknownNotionUrlShortenerError(error);
 
-			response.status(defaultError.status).send({
+			response.status(defaultError.status).json({
 				code: defaultError.code,
 				message: defaultError.message,
 			});
