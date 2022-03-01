@@ -108,8 +108,8 @@ export class InvalidInputError extends NotionUrlShortenerError {
 export class MethodNotAllowedError extends NotionUrlShortenerError {
 	constructor(method?: string) {
 		super(
-			NOTION_URL_SHORTENER_ERROR_CODE.BAD_REQUEST,
-			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.BAD_REQUEST,
+			NOTION_URL_SHORTENER_ERROR_CODE.METHOD_NOT_ALLOWED,
+			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.METHOD_NOT_ALLOWED,
 			method ? `${method} method is not allowed` : 'Method is not allowed',
 		);
 	}
