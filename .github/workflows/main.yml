@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    name: Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        node-version:
+          - 16
+          - 14
+          - 12
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn test
+        env:
+          NEXT_PUBLIC_NOTION_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_NOTION_DATABASE_URL }}
+          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+          USE_TOKEN_AUTH: ${{ secrets.USE_TOKEN_AUTH }}
