@@ -5,6 +5,6 @@
 		// be explicit about types included
 		// to avoid clashing with Jest types
 		"isolatedModules": false,
-		"types": ["cypress", "cypress-localstorage-commands"]
+		"types": ["cypress"]
 	}
 }
