@@ -62,8 +62,8 @@ describe('인증된 경우', () => {
 
 		cy.wait('@shorten')
 			.its('response.body')
-			.then((interception) => {
-				shorten = interception.shorten as Shorten;
+			.then((interception: {shorten: Shorten}) => {
+				shorten = interception.shorten;
 
 				cy.get('[name="shortenUrl"]').should(
 					'have.value',
