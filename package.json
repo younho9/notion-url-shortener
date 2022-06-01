@@ -10,8 +10,8 @@
 		"format": "prettier --ignore-path ./node_modules/@younho9/prettier-config/.prettierignore",
 		"lint": "xo",
 		"test": "jest && yarn test:e2e:headless",
-		"test:e2e": "NODE_ENV=test start-server-and-test dev http://localhost:3000 cypress",
-		"test:e2e:headless": "NODE_ENV=test start-server-and-test dev http://localhost:3000 cypress:headless"
+		"test:e2e": "NODE_ENV=test start-server-and-test dev http://127.0.0.1:3000 cypress",
+		"test:e2e:headless": "NODE_ENV=test start-server-and-test dev http://127.0.0.1:3000 cypress:headless"
 	},
 	"prettier": "@younho9/prettier-config",
 	"dependencies": {

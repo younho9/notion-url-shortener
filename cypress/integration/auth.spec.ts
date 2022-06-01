@@ -5,7 +5,7 @@ const INVALID_NOTION_API_TOKEN = 'INVALID_TOKEN';
 /* eslint-enable @typescript-eslint/naming-convention */
 
 beforeEach(() => {
-	cy.visit('http://localhost:3000');
+	cy.visit('http://127.0.0.1:3000');
 	cy.intercept('GET', '/api/auth').as('auth');
 	localStorage.clear();
 });
