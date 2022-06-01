@@ -10,7 +10,9 @@ const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
 beforeEach(() => {
 	cy.visit('http://localhost:3000', {
 		onBeforeLoad(window: Window): void {
-			cy.spy(window.navigator.clipboard, 'writeText').as('copy');
+			if (window.navigator.clipboard) {
+				cy.spy(window.navigator.clipboard, 'writeText').as('copy');
+			}
 		},
 	});
 	cy.intercept('POST', '/api/shortens').as('shorten');
