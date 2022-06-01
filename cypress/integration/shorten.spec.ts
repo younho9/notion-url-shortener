@@ -8,7 +8,7 @@ const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
 /* eslint-enable @typescript-eslint/naming-convention */
 
 beforeEach(() => {
-	cy.visit('http://127.0.0.1:3000');
+	cy.visit('http://localhost:3000');
 	cy.intercept('POST', '/api/shortens').as('shorten');
 	localStorage.clear();
 });
