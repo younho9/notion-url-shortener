@@ -22,7 +22,7 @@ jobs:
       - run: yarn jest
 
   e2e:
-    name: E2E on Headless Chrome
+    name: E2E on Chrome
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,6 +31,5 @@ jobs:
           start: yarn dev
           wait-on: http://localhost:3000
           browser: chrome
-          headless: true
         env:
           NODE_ENV: test
