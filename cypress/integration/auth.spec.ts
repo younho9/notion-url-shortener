@@ -49,6 +49,8 @@ describe('유효한 토큰이 저장되어 있는 경우', () => {
 describe('토큰이 저장되어 있지 않은 경우', () => {
 	/** @see https://docs.cypress.io/faq/questions/using-cypress-faq#Can-I-check-that-a-form-s-HTML-form-validation-is-shown-when-an-input-is-invalid */
 	it('토큰을 입력하지 않고 제출한 경우, HTML 폼 유효성 에러 메시지를 표시한다', () => {
+		cy.get('.chakra-portal', {timeout: 8000}).should('exist');
+
 		cy.get('[type="submit"]').contains('Verify').click();
 
 		cy.get('[name="token"]').then(($input) => {
@@ -59,6 +61,8 @@ describe('토큰이 저장되어 있지 않은 경우', () => {
 	});
 
 	it('토큰을 입력하고 제출한 경우, 응답을 기다리는 동안 로딩 스피너를 표시한다', () => {
+		cy.get('.chakra-portal', {timeout: 8000}).should('exist');
+
 		cy.get('[name="token"]')
 			.type(INVALID_NOTION_API_TOKEN)
 			.should('have.value', INVALID_NOTION_API_TOKEN);
@@ -70,6 +74,8 @@ describe('토큰이 저장되어 있지 않은 경우', () => {
 	});
 
 	it('무효한 토큰을 입력할 경우, 에러 메시지를 표시한다', () => {
+		cy.get('.chakra-portal', {timeout: 8000}).should('exist');
+
 		cy.get('[name="token"]')
 			.type(INVALID_NOTION_API_TOKEN)
 			.should('have.value', INVALID_NOTION_API_TOKEN);
@@ -83,6 +89,8 @@ describe('토큰이 저장되어 있지 않은 경우', () => {
 	});
 
 	it('유효한 토큰을 입력한 경우, 로컬스토리지에 토큰을 저장하고, 모달을 닫는다', () => {
+		cy.get('.chakra-portal', {timeout: 8000}).should('exist');
+
 		cy.get('[name="token"]')
 			.type(NOTION_API_TOKEN)
 			.should('have.value', NOTION_API_TOKEN);
