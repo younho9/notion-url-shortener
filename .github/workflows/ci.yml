@@ -10,39 +10,23 @@ env:
   USE_TOKEN_AUTH: ${{ secrets.USE_TOKEN_AUTH }}
 
 jobs:
-  jest:
-    name: Jest on Node.js ${{ matrix.node-version }}
+  unit:
+    name: Unit test on Node.js 16
     runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 1
-      matrix:
-        node-version:
-          - 16
-          - 14
-          - 12
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
       - run: yarn install
       - run: yarn jest
 
-  chrome:
-    name: E2E on chrome
+  e2e:
+    name: E2E on Headless Chrome
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v2
         with:
           browser: chrome
-
-  firefox:
-    name: E2E on firefox
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: cypress-io/github-action@v2
-        with:
-          browser: firefox
+          headless: true
