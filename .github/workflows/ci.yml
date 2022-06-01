@@ -28,5 +28,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v2
         with:
+          start: yarn dev
+          wait-on: http://127.0.0.1:3000
           browser: chrome
           headless: true
+        env:
+          NODE_ENV: test
