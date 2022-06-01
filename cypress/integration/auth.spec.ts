@@ -7,41 +7,32 @@ const INVALID_NOTION_API_TOKEN = 'INVALID_TOKEN';
 beforeEach(() => {
 	cy.visit('http://localhost:3000');
 	cy.intercept('GET', '/api/auth').as('auth');
-	cy.window().then((window) => {
-		window.localStorage.clear();
-	});
+
+	window.localStorage.clear();
 });
 
 describe('무효한 토큰이 저장되어 있는 경우', () => {
 	beforeEach(() => {
-		cy.window().then((window) => {
-			window.localStorage.setItem(
-				NOTION_API_TOKEN_STORAGE_KEY,
-				`"${INVALID_NOTION_API_TOKEN}"`,
-			);
-		});
+		window.localStorage.setItem(
+			NOTION_API_TOKEN_STORAGE_KEY,
+			`"${INVALID_NOTION_API_TOKEN}"`,
+		);
 	});
 
 	it('모달을 연다', () => {
-		cy.get('[name="token"]').should('not.exist');
-
 		cy.wait('@auth').get('[name="token"]').should('exist');
 	});
 });
 
 describe('유효한 토큰이 저장되어 있는 경우', () => {
 	beforeEach(() => {
-		cy.window().then((window) => {
-			window.localStorage.setItem(
-				NOTION_API_TOKEN_STORAGE_KEY,
-				`"${NOTION_API_TOKEN}"`,
-			);
-		});
+		window.localStorage.setItem(
+			NOTION_API_TOKEN_STORAGE_KEY,
+			`"${NOTION_API_TOKEN}"`,
+		);
 	});
 
 	it('모달을 열지 않는다', () => {
-		cy.get('[name="token"]').should('not.exist');
-
 		cy.wait('@auth').get('[name="token"]').should('not.exist');
 	});
 });
