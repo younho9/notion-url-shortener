@@ -21,7 +21,7 @@ jobs:
       - run: yarn install
       - run: yarn jest
 
-  e2e:
+  chrome:
     name: E2E on Chrome
     runs-on: ubuntu-latest
     steps:
@@ -31,5 +31,18 @@ jobs:
           start: yarn dev
           wait-on: http://localhost:3000
           browser: chrome
+        env:
+          NODE_ENV: test
+
+  firefox:
+    name: E2E on Firefox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v2
+        with:
+          start: yarn dev
+          wait-on: http://localhost:3000
+          browser: firefox
         env:
           NODE_ENV: test
