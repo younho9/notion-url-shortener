@@ -33,8 +33,6 @@ jobs:
           browser: chrome
         env:
           NODE_ENV: test
-          CYPRESS_VIEWPORT_WIDTH: 800
-          CYPRESS_VIEWPORT_HEIGHT: 600
 
   firefox:
     name: E2E on Firefox
@@ -48,5 +46,3 @@ jobs:
           browser: firefox
         env:
           NODE_ENV: test
-          CYPRESS_VIEWPORT_WIDTH: 800
-          CYPRESS_VIEWPORT_HEIGHT: 600
