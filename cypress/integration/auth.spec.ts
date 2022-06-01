@@ -19,12 +19,14 @@ describe('무효한 토큰이 저장되어 있는 경우', () => {
 	});
 
 	it('로컬스토리지를 비운다', () => {
-		cy.get('[name="token"]').should('not.exist');
-
-		cy.wait('@auth').should(() => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-			expect(localStorage.getItem(NOTION_API_TOKEN_STORAGE_KEY)).to.be.null;
-		});
+		cy.get('[name="token"]')
+			.should('not.exist')
+			.then(() => {
+				cy.wait('@auth').should(() => {
+					// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+					expect(localStorage.getItem(NOTION_API_TOKEN_STORAGE_KEY)).to.be.null;
+				});
+			});
 	});
 
 	it('모달을 연다', () => {
