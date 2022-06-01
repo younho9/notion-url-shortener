@@ -40,7 +40,7 @@ export default class NotionDatabaseClient
 	) {
 		const results = await this.queryAll<Type>(parameters);
 
-		return results.length === 0 ? undefined : results[0];
+		return results.at(0);
 	}
 
 	public async findById<Type extends Record<string, unknown>>(id: number) {
@@ -130,7 +130,7 @@ export default class NotionDatabaseClient
 			},
 		});
 
-		return results.length === 0 ? undefined : results[0];
+		return results.at(0);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
