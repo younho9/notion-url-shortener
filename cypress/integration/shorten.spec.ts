@@ -69,19 +69,23 @@ describe('인증된 경우', () => {
 			});
 	});
 
-	it('Copy 버튼을 클릭 시, 클립보드에 URL 주소가 복사된다.', () => {
-		cy.wait('@shorten')
-			.its('response.body')
-			.then(() => {
-				cy.get('[name="shortenUrl"]', {timeout: 8000}).should('exist');
-				cy.get('button').contains('Copy').click();
-				cy.get('[name="shortenUrl"]').then(($input) => {
-					const shortenUrl = $input.val();
+	it(
+		'Copy 버튼을 클릭 시, 클립보드에 URL 주소가 복사된다.',
+		{browser: 'chrome'},
+		() => {
+			cy.wait('@shorten')
+				.its('response.body')
+				.then(() => {
+					cy.get('[name="shortenUrl"]', {timeout: 8000}).should('exist');
+					cy.get('button').contains('Copy').click();
+					cy.get('[name="shortenUrl"]').then(($input) => {
+						const shortenUrl = $input.val();
 
-					cy.get('@copy').should('be.calledWithExactly', shortenUrl);
+						cy.get('@copy').should('be.calledWithExactly', shortenUrl);
+					});
 				});
-			});
-	});
+		},
+	);
 
 	it('단축된 URL로 이동 시, 원본 URL로 리다이렉트된다', () => {
 		cy.wait('@shorten')
