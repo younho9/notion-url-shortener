@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+env:
+  NEXT_PUBLIC_NOTION_DATABASE_URL: ${{ secrets.NEXT_PUBLIC_NOTION_DATABASE_URL }}
+  NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+  USE_TOKEN_AUTH: ${{ secrets.USE_TOKEN_AUTH }}
+
+jobs:
+  unit:
+    name: Unit test on Node.js 16
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: yarn install
+      - run: yarn jest
+
+  chrome:
+    name: E2E on Chrome
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v2
+        with:
+          start: yarn dev
+          wait-on: http://localhost:3000
+          browser: chrome
+        env:
+          NODE_ENV: test
+
+  firefox:
+    name: E2E on Firefox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cypress-io/github-action@v2
+        with:
+          start: yarn dev
+          wait-on: http://localhost:3000
+          browser: firefox
+        env:
+          NODE_ENV: test
