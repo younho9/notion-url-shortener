@@ -9,10 +9,12 @@ env:
   NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
   USE_TOKEN_AUTH: ${{ secrets.USE_TOKEN_AUTH }}
 
+concurrency: ${{ github.head_ref || github.ref_name }}
+
 jobs:
   unit:
     name: Unit test on Node.js 16
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
