@@ -2,6 +2,7 @@
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"noEmit": true,
+		"target": "es6",
 		// be explicit about types included
 		// to avoid clashing with Jest types
 		"isolatedModules": false,
