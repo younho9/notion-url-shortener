@@ -4,7 +4,7 @@ import {createMocks} from 'node-mocks-http';
 
 import {TIMEOUT} from '../../constants';
 
-import {NOTION_API_TOKEN} from '@/constants';
+import {NOTION_API_TOKEN, NOTION_DATABASE_ID} from '@/constants';
 import shortenHandler from '@/pages/api/shortens';
 import type {ShortenResponse} from '@/pages/api/shortens';
 import type {
@@ -28,7 +28,10 @@ describe('/api/shortens', () => {
 	});
 
 	afterAll(async () => {
-		const notionDatabase = new NotionDBClient({auth: NOTION_API_TOKEN});
+		const notionDatabase = new NotionDBClient({
+			auth: NOTION_API_TOKEN,
+			databaseId: NOTION_DATABASE_ID,
+		});
 
 		for await (const id of generatedShortenIds) {
 			await notionDatabase.delete(id);
