@@ -1,5 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 
+import {NOTION_DATABASE_ID} from '@/constants';
 import {NotionDBClient} from '@/server/database';
 import {MethodNotAllowedError} from '@/server/errors';
 import {wrapError} from '@/server/middlewares/wrap-error';
@@ -16,6 +17,7 @@ const handler = async (
 		case 'GET': {
 			const notionDatabase = new NotionDBClient({
 				auth: request.headers.authorization,
+				databaseId: NOTION_DATABASE_ID,
 			});
 
 			await notionDatabase.retrieve();

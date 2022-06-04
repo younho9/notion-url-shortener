@@ -2,8 +2,8 @@ import is from '@sindresorhus/is';
 import type {GetServerSideProps, NextPage} from 'next';
 import Error from 'next/error';
 
-import {NOTION_API_TOKEN} from '@/constants';
-import NotionDatabaseClient from '@/server/database/notion';
+import {NOTION_API_TOKEN, NOTION_DATABASE_ID} from '@/constants';
+import {NotionDBClient} from '@/server/database';
 import {NOTION_URL_SHORTENER_ERROR_STATUS_CODE} from '@/server/errors';
 import ShortenModel from '@/server/models/shorten.model';
 import {ShortenRepository} from '@/server/repositories/shorten.repository';
@@ -17,7 +17,10 @@ export default ShortenUrlPath;
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
 	if (is.string(query.shortenUrlPath)) {
 		try {
-			const notionDatabase = new NotionDatabaseClient({auth: NOTION_API_TOKEN});
+			const notionDatabase = new NotionDBClient({
+				auth: NOTION_API_TOKEN,
+				databaseId: NOTION_DATABASE_ID,
+			});
 			const shortenModel = new ShortenModel(notionDatabase);
 			const shortenRepository = new ShortenRepository(shortenModel);
 

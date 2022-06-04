@@ -9,22 +9,18 @@ import type {
 import type {ClientOptions} from '@notionhq/client/build/src/Client';
 import type {Except, IterableElement, ValueOf} from 'type-fest';
 
-import {NOTION_DATABASE_ID} from '@/constants';
 import type {DatabaseClient} from '@/server/database/types/database-client';
 
 export type NotionRow = IterableElement<
 	QueryDatabaseResponse['results']
 >['properties'];
 
-export default class NotionDatabaseClient
-	extends Client
-	implements DatabaseClient
-{
+export default class NotionDBClient extends Client implements DatabaseClient {
 	private readonly databaseId: string;
 
-	public constructor(options?: ClientOptions) {
+	public constructor(options: ClientOptions & {databaseId: string}) {
 		super(options);
-		this.databaseId = NOTION_DATABASE_ID;
+		this.databaseId = options.databaseId;
 	}
 
 	public async queryAll<Type extends Record<string, unknown>>(
