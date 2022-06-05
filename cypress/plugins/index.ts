@@ -2,7 +2,7 @@ import process from 'process';
 
 import {extractIdFromUrl} from '@narkdown/notion-utils';
 import {loadEnvConfig} from '@next/env'; // eslint-disable-line import/no-extraneous-dependencies
-import {APIResponseError} from '@notionhq/client/build/src';
+import {APIResponseError} from '@notionhq/client';
 import type {Simplify} from 'type-fest';
 
 import type {Shorten} from '@/schemas';

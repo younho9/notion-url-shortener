@@ -13,7 +13,7 @@ export interface DatabaseClient {
 
 	create<Type extends Record<string, unknown>>(
 		properties: unknown,
-	): Promise<Type>;
+	): Promise<Type | undefined>;
 
 	update<Type extends Record<string, unknown>>(
 		id: number,
