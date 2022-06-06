@@ -56,9 +56,6 @@ export default class ShortenModel {
 	}) {
 		const isUnique = await this.isUnique(shortenUrlPath);
 
-		// DEBUG:
-		console.log({isUnique});
-
 		if (!isUnique) {
 			throw new DuplicateShortenUrlPathError(shortenUrlPath);
 		}

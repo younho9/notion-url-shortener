@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import type {MockResponse} from 'node-mocks-http';
 import {createMocks} from 'node-mocks-http';
+import {describe, it, expect} from 'vitest';
 
 import {TIMEOUT} from '../constants';
 
