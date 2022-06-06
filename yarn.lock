@@ -2129,10 +2129,10 @@ csstype@^3.0.2, csstype@^3.0.9:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.0.10.tgz"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-cypress@^9.7.0:
-  version "9.7.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.7.0.tgz#bf55b2afd481f7a113ef5604aa8b693564b5e744"
-  integrity sha512-+1EE1nuuuwIt/N1KXRR2iWHU+OiIt7H28jJDyyI4tiUftId/DrXYEwoDa5+kH2pki1zxnA0r6HrUGHV5eLbF5Q==
+cypress@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.0.2.tgz#6aeac1923d534f9850d57dad9496f9ea74034a23"
+  integrity sha512-7+C4KHYBcfZrawss+Gt5PlS35rfc6ySc59JcHDVsIMm1E/J35dqE41UEXpdtwIq3549umCerNWnFADzqib4kcA==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -6095,6 +6095,13 @@ trim-newlines@^4.0.2:
   resolved "https://registry.npmjs.org/trim-newlines/-/trim-newlines-4.0.2.tgz"
   integrity sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==
 
+ts-extras@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/ts-extras/-/ts-extras-0.10.2.tgz#3e1f075f664965d5ed85f45c762a5b0726896ac9"
+  integrity sha512-rQFFtQCvNlP9Ke1K9vHFJNcJ/tll+SU8e5kEwZa++MIrS3vXojQVYBrsESGxv/EX6TTkl+f0j9pjTumcBXik1Q==
+  dependencies:
+    type-fest "^2.11.1"
+
 tsconfig-paths@^3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.12.0.tgz#19769aca6ee8f6a1a341e38c8fa45dd9fb18899b"
@@ -6208,6 +6215,11 @@ type-fest@^1.0.1, type-fest@^1.2.1, type-fest@^1.2.2:
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-1.4.0.tgz"
   integrity sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==
 
+type-fest@^2.11.1:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.13.0.tgz#d1ecee38af29eb2e863b22299a3d68ef30d2abfb"
+  integrity sha512-lPfAm42MxE4/456+QyIaaVBAwgpJb6xZ8PRu09utnhPdWwcyj9vgy6Sq0Z5yNbJ21EdxB5dRU/Qg8bsyAMtlcw==
+
 type-is@^1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
@@ -6216,15 +6228,15 @@ type-is@^1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@4.5.2:
-  version "4.5.2"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-4.5.2.tgz"
-  integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
-
 typescript@^4.5.5:
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
+
+typescript@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.3.tgz#8364b502d5257b540f9de4c40be84c98e23a129d"
+  integrity sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

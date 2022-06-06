@@ -39,7 +39,7 @@ describe('인증되지 않은 경우', () => {
 });
 
 describe('인증된 경우', () => {
-	let shorten: Shorten;
+	const generatedShortenIds: number[] = [];
 
 	beforeEach(() => {
 		localStorage.setItem(NOTION_API_TOKEN_STORAGE_KEY, `"${NOTION_API_TOKEN}"`);
@@ -52,15 +52,33 @@ describe('인증된 경우', () => {
 			.click();
 	});
 
+	after(() => {
+		for (const shortenId of generatedShortenIds) {
+			cy.request({
+				url: `/api/shortens/${shortenId}`,
+				method: 'DELETE',
+				headers: {
+					authorization: NOTION_API_TOKEN,
+				},
+			});
+		}
+	});
+
 	it('유효한 URL을 입력하고 제출하면 성공 얼럿 메시지를 표시한다', () => {
-		cy.wait('@shorten').get('[role="alert"]').should('have.text', 'Success!');
+		cy.wait('@shorten')
+			.its('response.body')
+			.then(({shorten}: {shorten: Shorten}) => {
+				generatedShortenIds.push(shorten.id);
+			});
+
+		cy.get('[role="alert"]').should('have.text', 'Success!');
 	});
 
 	it('유효한 URL을 입력하고 제출하면 단축된 URL을 표시한다', () => {
 		cy.wait('@shorten')
 			.its('response.body')
-			.then((interception: {shorten: Shorten}) => {
-				shorten = interception.shorten;
+			.then(({shorten}: {shorten: Shorten}) => {
+				generatedShortenIds.push(shorten.id);
 
 				cy.get('[name="shortenUrl"]').should(
 					'have.value',
@@ -75,15 +93,17 @@ describe('인증된 경우', () => {
 		() => {
 			cy.wait('@shorten')
 				.its('response.body')
-				.then(() => {
-					cy.get('[name="shortenUrl"]', {timeout: 8000}).should('exist');
-					cy.get('button').contains('Copy').click();
-					cy.get('[name="shortenUrl"]').then(($input) => {
-						const shortenUrl = $input.val();
-
-						cy.get('@copy').should('be.calledWithExactly', shortenUrl);
-					});
+				.then(({shorten}: {shorten: Shorten}) => {
+					generatedShortenIds.push(shorten.id);
 				});
+
+			cy.get('[name="shortenUrl"]', {timeout: 8000}).should('exist');
+			cy.get('button').contains('Copy').click();
+			cy.get('[name="shortenUrl"]').then(($input) => {
+				const shortenUrl = $input.val();
+
+				cy.get('@copy').should('be.calledWithExactly', shortenUrl);
+			});
 		},
 	);
 
@@ -91,6 +111,8 @@ describe('인증된 경우', () => {
 		cy.wait('@shorten')
 			.its('response.body')
 			.then(({shorten}: {shorten: Shorten}) => {
+				generatedShortenIds.push(shorten.id);
+
 				cy.get('[name="shortenUrl"]').then(($input) => {
 					const shortenUrl = $input.val() as string;
 
