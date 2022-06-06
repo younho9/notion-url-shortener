@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 16
       - run: yarn install
-      - run: yarn jest
+      - run: yarn test:unit
 
   chrome:
     name: E2E on Chrome
