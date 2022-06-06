@@ -8,10 +8,10 @@ import type {
 } from '@notionhq/client/build/src/api-endpoints';
 import type {ClientOptions} from '@notionhq/client/build/src/Client';
 import is from '@sindresorhus/is';
+import {isDefined, objectHasOwn} from 'ts-extras';
 import type {Except, IterableElement, ValueOf} from 'type-fest';
 
 import type {DatabaseClient} from '@/server/database/types/database-client';
-import {isDefined, objectHasOwn} from '@/utils';
 
 export type NotionRow = Extract<
 	IterableElement<QueryDatabaseResponse['results']>,
