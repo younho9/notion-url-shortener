@@ -8,6 +8,6 @@ export default defineConfig({
 		'@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src'),
 	},
 	test: {
-		globalSetup: ['./tests/setup-env.cjs'],
+		globalSetup: ['./tests/setup-env'],
 	},
 });
