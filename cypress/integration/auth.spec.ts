@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 const NOTION_API_TOKEN = Cypress.env('NOTION_API_TOKEN') as string;
 const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
 const INVALID_NOTION_API_TOKEN = 'INVALID_TOKEN';
-/* eslint-enable @typescript-eslint/naming-convention */
 
 beforeEach(() => {
 	cy.visit('http://localhost:3000');

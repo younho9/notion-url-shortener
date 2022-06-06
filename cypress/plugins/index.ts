@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import process from 'process';
 
 import {extractIdFromUrl} from '@narkdown/notion-utils';
@@ -14,9 +15,7 @@ const config: Cypress.PluginConfig = (on, config) => {
 	config.env = combinedEnv;
 
 	on('after:run', async () => {
-		/* eslint-disable @typescript-eslint/naming-convention */
 		const {NEXT_PUBLIC_NOTION_DATABASE_URL, NOTION_API_TOKEN} = combinedEnv;
-		/* eslint-enable @typescript-eslint/naming-convention */
 
 		const notionDatabase = new NotionDBClient({
 			auth: NOTION_API_TOKEN,

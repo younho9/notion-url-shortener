@@ -8,7 +8,7 @@ interface ShowItemProps extends HTMLMotionProps<'div'> {
 	delay?: number;
 }
 
-export const SHOW_ITEM_DELAY_UNIT = 0.1; // eslint-disable-line @typescript-eslint/naming-convention
+export const SHOW_ITEM_DELAY_UNIT = 0.1;
 
 const ShowItem = ({
 	direction = 'up',

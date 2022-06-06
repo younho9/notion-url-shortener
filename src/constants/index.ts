@@ -45,6 +45,7 @@ export const NOTION_DATABASE_URL = process.env.NEXT_PUBLIC_NOTION_DATABASE_URL!;
 
 export const NOTION_DATABASE_ID = extractIdFromUrl(NOTION_DATABASE_URL);
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const USE_TOKEN_AUTH = process.env.USE_TOKEN_AUTH === 'true';
 
 export const MAXIMUM_ZERO_WIDTH_SHORTEN_LENGTH = Number(

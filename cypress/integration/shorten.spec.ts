@@ -2,10 +2,8 @@ import url from '../fixtures/url.json';
 
 import type {Shorten} from '@/schemas';
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const NOTION_API_TOKEN = Cypress.env('NOTION_API_TOKEN') as string;
 const NOTION_API_TOKEN_STORAGE_KEY = 'NOTION_API_KEY';
-/* eslint-enable @typescript-eslint/naming-convention */
 
 beforeEach(() => {
 	cy.visit('http://localhost:3000', {

@@ -23,7 +23,7 @@ import {SHORTEN_TYPE} from '@/schemas';
 import {copyTextToClipboard} from '@/utils';
 
 const RegisterUrlForm = () => {
-	const [originalUrl, setoriginalUrl] = React.useState('');
+	const [originalUrl, setOriginalUrl] = React.useState('');
 	const [shortenType, setShortenType] = React.useState<ShortenType>(SHORTEN_TYPE.ZERO_WIDTH); // prettier-ignore
 	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
 	const [isCopied, setIsCopied] = React.useState(false);
@@ -65,7 +65,7 @@ const RegisterUrlForm = () => {
 		retryRegisterShorten();
 
 		if (isResolved) {
-			setoriginalUrl('');
+			setOriginalUrl('');
 			setCustomShortenUrlPath('');
 		}
 	};
@@ -73,7 +73,7 @@ const RegisterUrlForm = () => {
 	const handleoriginalUrlInputChange: React.ChangeEventHandler<
 		HTMLInputElement
 	> = (event) => {
-		setoriginalUrl(event.target.value);
+		setOriginalUrl(event.target.value);
 	};
 
 	const handleCustomShortenUrlPathInputChange: React.ChangeEventHandler<
