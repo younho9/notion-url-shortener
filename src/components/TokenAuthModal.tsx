@@ -7,30 +7,36 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
+	ModalCloseButton,
 	ModalOverlay,
 	Text,
 	FormControl,
 	FormErrorMessage,
-	useDisclosure,
 } from '@chakra-ui/react';
-import {useLocalStorageValue} from '@react-hookz/web';
 import type React from 'react';
 import {useEffect, useState} from 'react';
 
-import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
 import {getIsVerified, useVerifyTokenReducer} from '@/reducers';
 
-const TokenAuthModal = () => {
-	const [token, setToken, removeToken] = useLocalStorageValue<string>(
-		NOTION_API_TOKEN_STORAGE_KEY,
-		null,
-		{initializeWithStorageValue: false},
-	);
+interface TokenAuthModalProps {
+	token?: string;
+	setToken: (token: string) => void;
+	removeToken: () => void;
+	isOpen: boolean;
+	onOpen: () => void;
+	onClose: () => void;
+}
+
+const TokenAuthModal = ({
+	token,
+	setToken,
+	removeToken,
+	isOpen,
+	onOpen,
+	onClose,
+}: TokenAuthModalProps) => {
 	const {status, error, verifyToken} = useVerifyTokenReducer();
 	const [tokenInput, setTokenInput] = useState('');
-	const {isOpen, onClose} = useDisclosure({
-		isOpen: !token && status !== 'VERIFIED',
-	});
 
 	const handleSaveTokenForm: React.FormEventHandler<HTMLFormElement> = async (
 		event,
@@ -49,19 +55,22 @@ const TokenAuthModal = () => {
 
 	useEffect(() => {
 		if (!token) {
+			onOpen();
 			return;
 		}
 
 		const checkToken = async () => {
 			const {isVerified} = await getIsVerified(token);
 
-			if (!isVerified) {
+			if (isVerified) {
+				onClose();
+			} else {
 				removeToken();
 			}
 		};
 
 		void checkToken();
-	}, [token, removeToken]);
+	}, [token, onOpen, onClose, removeToken]);
 
 	return (
 		<Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -70,6 +79,7 @@ const TokenAuthModal = () => {
 				<ModalHeader fontSize={['2xl', '3xl']} pb={2}>
 					<Center>👋 Welcome!</Center>
 				</ModalHeader>
+				<ModalCloseButton />
 				<form onSubmit={handleSaveTokenForm}>
 					<ModalBody>
 						<Text ml={2} mb={2} fontSize="sm" color="gray.500">
