@@ -107,4 +107,8 @@ export default class ShortenModel {
 			});
 		}
 	}
+
+	public async deleteShorten(id: number) {
+		return this.db.delete(id);
+	}
 }

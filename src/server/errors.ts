@@ -11,6 +11,7 @@ export const NOTION_URL_SHORTENER_ERROR_CODE = {
 	METHOD_NOT_ALLOWED: 'method_not_allowed',
 	DUPLICATE_SHORTEN_URL_PATH: 'duplicate_shorten_url_path',
 	URL_NOT_FOUND: 'url_not_found',
+	ID_NOT_FOUND: 'id_not_found',
 	UNKNOWN_NOTION_URL_SHORTENER_ERROR: 'unknown_notion_url_shortener_error',
 } as const;
 
@@ -30,6 +31,7 @@ export const NOTION_URL_SHORTENER_ERROR_STATUS_CODE = {
 	METHOD_NOT_ALLOWED: 405, // Method Not Allowed
 	DUPLICATE_SHORTEN_URL_PATH: 409, // Conflict
 	URL_NOT_FOUND: 404, // Not Found
+	ID_NOT_FOUND: 404, // Not Found
 	UNKNOWN_NOTION_URL_SHORTENER_ERROR: 500, // Internal Server Error
 } as const;
 
@@ -130,7 +132,17 @@ export class UrlNotFoundError extends NotionUrlShortenerError {
 		super(
 			NOTION_URL_SHORTENER_ERROR_CODE.URL_NOT_FOUND,
 			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.URL_NOT_FOUND,
-			`"${shortenUrlPath}" is not found`,
+			`'${shortenUrlPath}' is not found`,
+		);
+	}
+}
+
+export class IdNotFoundError extends NotionUrlShortenerError {
+	constructor(id: number) {
+		super(
+			NOTION_URL_SHORTENER_ERROR_CODE.ID_NOT_FOUND,
+			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.ID_NOT_FOUND,
+			`Shorten id '${id}' is not found`,
 		);
 	}
 }

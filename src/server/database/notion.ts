@@ -123,7 +123,11 @@ export default class NotionDBClient extends Client implements DatabaseClient {
 			await this.blocks.delete({
 				block_id: blockId,
 			});
+
+			return true;
 		}
+
+		return false;
 	}
 
 	private async _query(

@@ -20,5 +20,5 @@ export interface DatabaseClient {
 		properties: unknown,
 	): Promise<Type | undefined>;
 
-	delete(id: number): Promise<void>;
+	delete(id: number): Promise<boolean>;
 }

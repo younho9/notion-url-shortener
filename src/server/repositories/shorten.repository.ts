@@ -7,6 +7,7 @@ import type {
 import {SHORTEN_TYPE} from '@/schemas';
 import {shortenConfig} from '@/server/configs/shorten';
 import {
+	IdNotFoundError,
 	OverflowMaximumAttemptError,
 	OverflowMaximumCountError,
 	UrlNotFoundError,
@@ -126,6 +127,16 @@ export class ShortenRepository {
 		} while (!created);
 
 		return created;
+	}
+
+	async unregister(id: number) {
+		const hasDeleted = await this.shortenModel.deleteShorten(id);
+
+		if (!hasDeleted) {
+			throw new IdNotFoundError(id);
+		}
+
+		return hasDeleted;
 	}
 
 	async isOverflowMaximum() {
