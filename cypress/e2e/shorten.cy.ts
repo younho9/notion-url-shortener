@@ -18,23 +18,11 @@ beforeEach(() => {
 });
 
 describe('인증되지 않은 경우', () => {
-	it('강제로 URL을 입력하고 제출한 경우, 에러 얼럿 메시지를 표시한다', () => {
-		cy.get('.chakra-portal')
-			.then(($portal) => {
-				$portal.remove();
-			})
-			.should('not.exist');
-
-		cy.get('[name="originalUrl"]')
-			.type(url.repository, {force: true})
-			.should('have.value', url.repository)
-			.get('[type="submit"]')
-			.contains('Shorten')
-			.click();
-
-		cy.wait('@shorten')
-			.get('[role="alert"]')
-			.should('have.text', 'API token is invalid.');
+	it('모달을 닫고 폼을 클릭하면, 모달을 다시 연다.', () => {
+		cy.get('[aria-label="Close"]').click();
+		cy.get('.chakra-portal').should('not.exist');
+		cy.get('[name="originalUrl"]').type(url.repository, {force: true});
+		cy.get('.chakra-portal').should('exist');
 	});
 });
 

@@ -16,13 +16,17 @@ import {
 import React from 'react';
 
 import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
-import {NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
 import {useRegisterShortenReducer} from '@/reducers';
 import type {ShortenType} from '@/schemas';
 import {SHORTEN_TYPE} from '@/schemas';
 import {copyTextToClipboard} from '@/utils';
 
-const RegisterUrlForm = () => {
+interface RegisterUrlFormProps {
+	token?: string;
+	onClickCapture: React.MouseEventHandler<HTMLFormElement>;
+}
+
+const RegisterUrlForm = ({token, onClickCapture}: RegisterUrlFormProps) => {
 	const [originalUrl, setOriginalUrl] = React.useState('');
 	const [shortenType, setShortenType] = React.useState<ShortenType>(SHORTEN_TYPE.ZERO_WIDTH); // prettier-ignore
 	const [customShortenUrlPath, setCustomShortenUrlPath] = React.useState('');
@@ -41,10 +45,6 @@ const RegisterUrlForm = () => {
 		event.preventDefault();
 
 		if (isIdle) {
-			const token: string | undefined = (JSON.parse(
-				localStorage.getItem(NOTION_API_TOKEN_STORAGE_KEY) ?? 'null',
-			) ?? undefined) as string | undefined;
-
 			const shortenRequest =
 				shortenType === SHORTEN_TYPE.CUSTOM
 					? {
@@ -97,7 +97,7 @@ const RegisterUrlForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmitForm}>
+		<form onSubmit={handleSubmitForm} onClickCapture={onClickCapture}>
 			{(isPending || isIdle) && (
 				<Stack>
 					<ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT}>

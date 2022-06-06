@@ -1,4 +1,5 @@
-import {Stack, Center} from '@chakra-ui/react';
+import {Stack, Center, useDisclosure} from '@chakra-ui/react';
+import {useLocalStorageValue} from '@react-hookz/web';
 import type {GetServerSideProps, NextPage} from 'next';
 import Head from 'next/head';
 
@@ -7,11 +8,18 @@ import RegisterUrlForm from '@/components/RegisterUrlForm';
 import ShowItem, {SHOW_ITEM_DELAY_UNIT} from '@/components/ShowItem';
 import Title from '@/components/Title';
 import TokenAuthModal from '@/components/TokenAuthModal';
-import {USE_TOKEN_AUTH} from '@/constants';
+import {USE_TOKEN_AUTH, NOTION_API_TOKEN_STORAGE_KEY} from '@/constants';
 
 const Home: NextPage<{
 	useTokenAuth: boolean;
 }> = ({useTokenAuth}) => {
+	const [token, setToken, removeToken] = useLocalStorageValue<string>(
+		NOTION_API_TOKEN_STORAGE_KEY,
+		null,
+		{initializeWithStorageValue: false},
+	);
+	const {isOpen, onOpen, onClose} = useDisclosure();
+
 	return (
 		<div>
 			<Head>
@@ -31,7 +39,16 @@ const Home: NextPage<{
 					<ShowItem direction="down">
 						<Title />
 					</ShowItem>
-					<RegisterUrlForm />
+					<RegisterUrlForm
+						token={token ?? undefined}
+						onClickCapture={(event) => {
+							if (!token) {
+								event.stopPropagation();
+								event.preventDefault();
+								onOpen();
+							}
+						}}
+					/>
 				</Stack>
 
 				<ShowItem direction="down" delay={SHOW_ITEM_DELAY_UNIT * 4}>
@@ -39,7 +56,16 @@ const Home: NextPage<{
 				</ShowItem>
 			</Center>
 
-			{useTokenAuth && <TokenAuthModal />}
+			{useTokenAuth && (
+				<TokenAuthModal
+					token={token ?? undefined}
+					setToken={setToken}
+					removeToken={removeToken}
+					isOpen={isOpen}
+					onOpen={onOpen}
+					onClose={onClose}
+				/>
+			)}
 		</div>
 	);
 };
