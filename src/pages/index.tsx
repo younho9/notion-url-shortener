@@ -41,13 +41,17 @@ const Home: NextPage<{
 					</ShowItem>
 					<RegisterUrlForm
 						token={token ?? undefined}
-						onClickCapture={(event) => {
-							if (!token) {
-								event.stopPropagation();
-								event.preventDefault();
-								onOpen();
-							}
-						}}
+						onClickCapture={
+							useTokenAuth
+								? (event) => {
+										if (!token) {
+											event.stopPropagation();
+											event.preventDefault();
+											onOpen();
+										}
+								  }
+								: undefined
+						}
 					/>
 				</Stack>
 

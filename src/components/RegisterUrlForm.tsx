@@ -23,7 +23,7 @@ import {copyTextToClipboard} from '@/utils';
 
 interface RegisterUrlFormProps {
 	token?: string;
-	onClickCapture: React.MouseEventHandler<HTMLFormElement>;
+	onClickCapture?: React.MouseEventHandler<HTMLFormElement>;
 }
 
 const RegisterUrlForm = ({token, onClickCapture}: RegisterUrlFormProps) => {
