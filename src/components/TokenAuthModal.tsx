@@ -73,7 +73,7 @@ const TokenAuthModal = ({
 	}, [token, onOpen, onClose, removeToken]);
 
 	return (
-		<Modal isCentered isOpen={isOpen} onClose={onClose}>
+		<Modal isCentered isOpen={!token && isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent w={['xs', 'md']}>
 				<ModalHeader fontSize={['2xl', '3xl']} pb={2}>
