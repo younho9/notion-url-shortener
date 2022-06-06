@@ -15,14 +15,17 @@ export default class ShortenModel {
 	}
 
 	public async findByShortenUrlPath(shortenUrlPath: string) {
-		return this.db.queryOne<Model>({
+		const result = await this.db.queryOne<Model>({
 			filter: {
 				property: 'shortenUrlPath',
-				text: {
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				rich_text: {
 					equals: shortenUrlPath,
 				},
 			},
 		});
+
+		return result;
 	}
 
 	public async isUnique(shortenUrlPath: string) {
@@ -52,6 +55,9 @@ export default class ShortenModel {
 		shortenUrlPath: string;
 	}) {
 		const isUnique = await this.isUnique(shortenUrlPath);
+
+		// DEBUG:
+		console.log({isUnique});
 
 		if (!isUnique) {
 			throw new DuplicateShortenUrlPathError(shortenUrlPath);

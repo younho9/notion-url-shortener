@@ -20,7 +20,7 @@
 		"@emotion/styled": "^11",
 		"@fontsource/inter": "4.5.1",
 		"@narkdown/notion-utils": "0.1.0",
-		"@notionhq/client": "0.4.9",
+		"@notionhq/client": "^1.0.4",
 		"@react-hookz/web": "^12.3.0",
 		"@sindresorhus/is": "^4.5.0",
 		"@younho9/object": "0.9.1",

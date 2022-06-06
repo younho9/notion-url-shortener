@@ -1,3 +1,4 @@
+import is from '@sindresorhus/is';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import {
@@ -8,7 +9,10 @@ import {
 import type {Shorten} from '@/schemas';
 import {shortenRegisterInputSchema} from '@/schemas';
 import {NotionDBClient} from '@/server/database';
-import {MethodNotAllowedError} from '@/server/errors';
+import {
+	MethodNotAllowedError,
+	UnknownNotionUrlShortenerError,
+} from '@/server/errors';
 import {validate, wrapError} from '@/server/middlewares';
 import {ShortenModel} from '@/server/models';
 import {ShortenRepository} from '@/server/repositories/shorten.repository';
@@ -30,6 +34,10 @@ const handler = async (
 			const shortenModel = new ShortenModel(notionDatabase);
 			const shortenRepository = new ShortenRepository(shortenModel);
 			const shorten = await shortenRepository.register(request.body);
+
+			if (is.undefined(shorten)) {
+				throw new UnknownNotionUrlShortenerError();
+			}
 
 			response.status(200).json({shorten});
 

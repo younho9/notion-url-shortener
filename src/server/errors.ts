@@ -56,11 +56,11 @@ export class NotionUrlShortenerError extends Error {
 }
 
 export class UnknownNotionUrlShortenerError extends NotionUrlShortenerError {
-	constructor(error: Error) {
+	constructor(error?: Error) {
 		super(
 			NOTION_URL_SHORTENER_ERROR_CODE.UNKNOWN_NOTION_URL_SHORTENER_ERROR,
 			NOTION_URL_SHORTENER_ERROR_STATUS_CODE.UNKNOWN_NOTION_URL_SHORTENER_ERROR,
-			error.message ?? 'Unkown internal notion url shortener server error',
+			error?.message ?? 'Unkown internal notion url shortener server error',
 		);
 	}
 }

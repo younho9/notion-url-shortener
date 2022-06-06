@@ -7,15 +7,29 @@ import type {
 	UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints';
 import type {ClientOptions} from '@notionhq/client/build/src/Client';
+import is from '@sindresorhus/is';
 import type {Except, IterableElement, ValueOf} from 'type-fest';
 
 import type {DatabaseClient} from '@/server/database/types/database-client';
+import {isDefined, objectHasOwn} from '@/utils';
 
-export type NotionRow = IterableElement<
-	QueryDatabaseResponse['results']
+export type NotionRow = Extract<
+	IterableElement<QueryDatabaseResponse['results']>,
+	{properties: unknown}
 >['properties'];
 
 export default class NotionDBClient extends Client implements DatabaseClient {
+	private readonly DEFAULT_FILTER = {
+		and: [
+			{
+				timestamp: 'created_time',
+				created_time: {
+					is_not_empty: true,
+				},
+			} as const,
+		],
+	};
+
 	private readonly databaseId: string;
 
 	public constructor(options: ClientOptions & {databaseId: string}) {
@@ -66,10 +80,13 @@ export default class NotionDBClient extends Client implements DatabaseClient {
 			parent: {
 				database_id: this.databaseId,
 			},
+			children: [],
 			properties,
 		});
 
-		return this._parseRow<Type>(response.properties);
+		if (objectHasOwn(response, 'properties')) {
+			return this._parseRow<Type>(response.properties);
+		}
 	}
 
 	public async update<Type extends Record<string, unknown>>(
@@ -81,14 +98,18 @@ export default class NotionDBClient extends Client implements DatabaseClient {
 	) {
 		const result = await this._findById(id);
 
-		if (result) {
-			const pageId = result.id;
+		if (is.undefined(result)) {
+			return;
+		}
 
-			const response = await this.pages.update({
-				page_id: pageId,
-				properties,
-			});
+		const pageId = result.id;
 
+		const response = await this.pages.update({
+			page_id: pageId,
+			properties,
+		});
+
+		if (objectHasOwn(response, 'properties')) {
 			return this._parseRow<Type>(response.properties);
 		}
 	}
@@ -110,6 +131,7 @@ export default class NotionDBClient extends Client implements DatabaseClient {
 	) {
 		const {results} = await this.databases.query({
 			...parameters,
+			filter: parameters?.filter ?? this.DEFAULT_FILTER,
 			database_id: this.databaseId,
 		});
 
@@ -144,7 +166,10 @@ export default class NotionDBClient extends Client implements DatabaseClient {
 		results: QueryDatabaseResponse['results'],
 	) {
 		return results
-			.map(({properties}) => properties)
+			.map((result) =>
+				objectHasOwn(result, 'properties') ? result.properties : undefined,
+			)
+			.filter(isDefined)
 			.map((row) => this._parseRow<Type>(row));
 	}
 
