@@ -1,6 +1,5 @@
 import React from 'react';
-
-import {assertError} from '@/utils';
+import {assertError} from 'ts-extras';
 
 type VerifyTokenState =
 	| {

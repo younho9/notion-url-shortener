@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is';
 import React from 'react';
+import {assertError} from 'ts-extras';
 
 import type {ShortenResponse} from '@/pages/api/shortens';
 import type {
@@ -7,7 +8,6 @@ import type {
 	GeneratedShortenRegisterInputSchema,
 	Shorten,
 } from '@/schemas';
-import {assertError} from '@/utils';
 
 type RegisterShortenState =
 	| {
