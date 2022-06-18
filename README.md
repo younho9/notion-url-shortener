@@ -1,14 +1,22 @@
 # Notion URL Shortener
 
+[![CI](https://github.com/younho9/notion-url-shortener/actions/workflows/ci.yml/badge.svg)](https://github.com/younho9/notion-url-shortener/actions/workflows/ci.yml)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 [![license: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 > Uses Notion database as personal URL shortener.
 
+## Features
+
+- Get your personal URL shortener with just a Notion.
+- Support `custom`, [`zero width`](https://zws.im/), `base64` type.
+- Private mode : Notion API token based authorization.
+- Count visits.
+
 ## Demo
 
 - [Public](https://notion-url-shortener.vercel.app/)
-- [Private](https://notion-url-shortener-git-develop-younho9.vercel.app/)
+- [Private](https://yh9.page/)
 
 ## Getting Started
 
